@@ -135,18 +135,18 @@ void myDisplay()
 {
 
     // Drawing The Horizon
-	draw_line(horizon_x1, horizon_x2, horizon_y1, horizon_y2);
+	/*draw_line(horizon_x1, horizon_x2, horizon_y1, horizon_y2);
 	draw_line(horizon_x1, horizon_x3, horizon_y1, horizon_y3);
 	draw_line(horizon_x3, horizon_x4, horizon_y3, horizon_y4);
-	draw_line(horizon_x2, horizon_x4, horizon_y2, horizon_y4);
+	draw_line(horizon_x2, horizon_x4, horizon_y2, horizon_y4);*/
 	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3);
 
 
 	// Drawing The Sea
-	draw_line(sea_x1, sea_x2, sea_y1, sea_y2);
+	/*draw_line(sea_x1, sea_x2, sea_y1, sea_y2);
 	draw_line(sea_x1, sea_x3, sea_y1, sea_y3);
 	draw_line(sea_x3, sea_x4, sea_y3, sea_y4);
-	draw_line(sea_x2, sea_x4, sea_y2, sea_y4);
+	draw_line(sea_x2, sea_x4, sea_y2, sea_y4);*/
 	scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x4, sea_y4, sea_x3, sea_y3);
 
 	glFlush();
@@ -163,14 +163,14 @@ void main(int argc, char **argv)
 	horizon_x4 = 250;
 	horizon_y4 = 190;
 
-    sea_x1 = -25;
-    sea_y1 = 19;
-    sea_x2 = 0;
-    sea_y2 = 18.5;
-    sea_x3 = -20;
-    sea_y3 = -20;
-    sea_x4 = 50;
-    sea_y4 = -50;
+    sea_x1 = -250;
+    sea_y1 = 0;
+    sea_x2 = 250;
+    sea_y2 = 0;
+    sea_x3 = -250;
+    sea_y3 = -250;
+    sea_x4 = 250;
+    sea_y4 = -250;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
