@@ -75,9 +75,43 @@ void draw_line(int x1, int x2, int y1, int y2)
 	}
 }
 
+void horizon()
+{
+    /*glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glBegin(GL_QUADS);
+        glColor3d(94, 94, 94);
+        glVertex2f(-250, 250);
+        glColor3d(94, 94, 94);
+        glVertex2f(250, 250);
+        glColor3d(94, 94, 94);
+        glVertex2f(-250, 210);
+        glColor3d(94, 94, 94);
+        glVertex2f(250, 200);
+    glEnd();
+    glutSwapBuffers();*/
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glBegin(GL_QUADS);
+        glColor3d(94,94,94);
+        glVertex2d(-100,-100);
+        glColor3d(94,94,94);
+        glVertex2d(-100,100);
+        glColor3d(94,94,94);
+        glVertex2d(100,-100);
+        glColor3d(94,94,94);
+        glVertex2d(100,100);
+    glEnd();
+    glutSwapBuffers();
+}
+
 void myDisplay()
 {
-	draw_line(x1, x2, y1, y2);
+	draw_line(-260, 250, 250, 250);
+	draw_line(-260, -250, 250, 210);
+	draw_line(-260, 250, 210, 200);
+	draw_line(250, 250, 250, 210);
+	//horizon();
 	glFlush();
 }
 

@@ -234,9 +234,8 @@
 1341006774 c:\program files (x86)\codeblocks\mingw\include\math.h
 	<_mingw.h>
 
-1521222580 source:c:\2nd year it\4th sem\cg\lighthouse\lighthouse.c
+1521822985 source:c:\2nd year it\4th sem\cg\lighthouse\lighthouse.c
 	<windows.h>
-	<GL/glut.h>
+	<gl/glut.h>
 	<stdio.h>
-	<math.h>
 
