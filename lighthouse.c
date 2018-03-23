@@ -2,7 +2,8 @@
 #include <gl/glut.h>
 #include <stdio.h>
 
-int x1, y1, x2, y2, x3, y3, x4, y4;
+int horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x3, horizon_y3, horizon_x4, horizon_y4;
+int sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4;
 
 void myInit()
 {
@@ -14,7 +15,7 @@ void myInit()
 
 void draw_pixel_horizon(int x, int y)
 {
-    glColor3f(0.0,1.0,1.0);
+    glColor3f(0.0,1.0,100.0);
 	glBegin(GL_POINTS);
 	glVertex2i(x, y);
 	glEnd();
@@ -59,7 +60,7 @@ void scanfill(float x1,float y1,float x2,float y2,float x3,float y3,float x4,flo
             int i,y;
             for(i=0;i<500;i++)   // initialize le and re array values
             {
-                        le[i]=500;
+                        le[i]=1000;
                         re[i]=0;
             }
             edgedetect(x1,y1,x2,y2,le,re);    // call edge detect four times
@@ -132,28 +133,48 @@ void draw_line(int x1, int x2, int y1, int y2)
 
 void myDisplay()
 {
-	draw_line(x1, x2, y1, y2);
-	draw_line(x1, x3, y1, y3);
-	draw_line(x3, x4, y3, y4);
-	draw_line(x2, x4, y2, y4);
-	scanfill(x1, y1, x2, y2, x4, y4, x3, y3);
+
+    // Drawing The Horizon
+	draw_line(horizon_x1, horizon_x2, horizon_y1, horizon_y2);
+	draw_line(horizon_x1, horizon_x3, horizon_y1, horizon_y3);
+	draw_line(horizon_x3, horizon_x4, horizon_y3, horizon_y4);
+	draw_line(horizon_x2, horizon_x4, horizon_y2, horizon_y4);
+	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3);
+
+
+	// Drawing The Sea
+	draw_line(sea_x1, sea_x2, sea_y1, sea_y2);
+	draw_line(sea_x1, sea_x3, sea_y1, sea_y3);
+	draw_line(sea_x3, sea_x4, sea_y3, sea_y4);
+	draw_line(sea_x2, sea_x4, sea_y2, sea_y4);
+	scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x4, sea_y4, sea_x3, sea_y3);
+
 	glFlush();
 }
 
 void main(int argc, char **argv)
 {
-	x1 = -260;
-	y1 = 250;
-	x2 = 250;
-	y2 = 250;
-	x3 = -260;
-	y3 = 210;
-	x4 = 250;
-	y4 = 200;
+	horizon_x1 = -260;
+	horizon_y1 = 250;
+	horizon_x2 = 250;
+	horizon_y2 = 250;
+	horizon_x3 = -260;
+	horizon_y3 = 185;
+	horizon_x4 = 250;
+	horizon_y4 = 190;
+
+    sea_x1 = -25;
+    sea_y1 = 19;
+    sea_x2 = 0;
+    sea_y2 = 18.5;
+    sea_x3 = -20;
+    sea_y3 = -20;
+    sea_x4 = 50;
+    sea_y4 = -50;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(1000, 650);
 	glutInitWindowPosition(0, 0);
     glutCreateWindow("Bresenham's Line Drawing");
     glutFullScreen();
