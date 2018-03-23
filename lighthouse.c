@@ -12,6 +12,14 @@ void myInit()
 	gluOrtho2D(-250, 250,-250, 250);
 }
 
+void draw_pixel_horizon(int x, int y)
+{
+    glColor3f(0.0,1.0,1.0);
+	glBegin(GL_POINTS);
+	glVertex2i(x, y);
+	glEnd();
+}
+
 void draw_pixel(int x, int y)
 {
 	glBegin(GL_POINTS);
@@ -62,7 +70,7 @@ for(y=0;y<500;y++)        // for every scan line with value y
 {
            if(le[y]<=re[y])            // refer to le and re arrays to see if a part
                         for(i=le[y]+1;i<re[y];i++) // of the scanline is inside polygon
-                                    draw_pixel(i,y);       // if so draw a horizontal line from
+                                    draw_pixel_horizon(i,y);       // if so draw a horizontal line from
 }                                                              // left edge to right edge
 }
 
@@ -84,7 +92,7 @@ void draw_line(int x1, int x2, int y1, int y2)
 	x = x1; y = y1;
 	if (dx > dy)
     {
-		draw_pixel(x, y);
+		draw_pixel_horizon(x, y);
 		e = 2 * dy-dx;
 		inc1 = 2*(dy-dx);
 		inc2 = 2*dy;
@@ -98,12 +106,12 @@ void draw_line(int x1, int x2, int y1, int y2)
 			else
 				e += inc2;
 			x += incx;
-			draw_pixel(x, y);
+			draw_pixel_horizon(x, y);
 		}
 	}
 	else
     {
-		draw_pixel(x, y);
+		draw_pixel_horizon(x, y);
 		e = 2*dx-dy;
 		inc1 = 2*(dx-dy);
 		inc2 = 2*dx;
@@ -117,7 +125,7 @@ void draw_line(int x1, int x2, int y1, int y2)
 			else
 				e += inc2;
 			y += incy;
-			draw_pixel(x, y);
+			draw_pixel_horizon(x, y);
 		}
 	}
 }
@@ -128,6 +136,7 @@ void myDisplay()
 	draw_line(x1, x3, y1, y3);
 	draw_line(x3, x4, y3, y4);
 	draw_line(x2, x4, y2, y4);
+	scanfill(x1, y1, x2, y2, x4, y4, x3, y3);
 	glFlush();
 }
 
