@@ -202,9 +202,21 @@ void myDisplay()
     draw_line(l1_x, l1_x, l1_y, 0, 0.41, 0.41, 0.41);
 
     // Ceiling
-    //scanfill(l1_x - 1, l1_y + 1, l2_x + 1, l2_y - 1, l3_x + 1, l3_y - 1, l4_x - 1, l4_y - 1, 1.0, 1.0, 1.0);
-    //scanfill(l5_x - 1, l5_y + 1, l1_x + 1, l1_y - 1, l4_x + 1, l4_y - 1, l6_x - 1, l6_y - 1, 1.0, 1.0, 1.0);
-
+    l4_y = l1_y;
+    l3_y = l2_y;
+    l6_y = l5_y;
+    l1_x -= 5;
+    l1_y += 10;
+    l5_x -= 5;
+    l5_y += 10;
+    l4_x -= 5;
+    l2_x += 5;
+    l2_y += 10;
+    l3_x += 5;
+    l6_x -= 5;
+    scanfill(l1_x, l1_y, l2_x, l2_y, l3_x, l3_y, l4_x, l4_y, 1.0, 1.0, 1.0);
+    scanfill(l5_x, l5_y, l1_x, l1_y, l4_x, l4_y, l6_x, l6_y, 1.0, 1.0, 1.0);
+    scanfill(l5_x, l5_y, l5_x + 85, l5_y + 10, l2_x, l2_y, l1_x, l1_y, 1.0, 1.0, 1.0);
 
 	glFlush();
 }
@@ -248,22 +260,22 @@ void main(int argc, char **argv)
     green1_y4 = 0;
 
 
-    road_x1 = 334*scale_x;
+    road_x1 = 314*scale_x;
     road_y1 = 437.5*scale_y;
-    road_x2 = 340*scale_x;
+    road_x2 = 320*scale_x;
     road_y2 = 437.5*scale_y;
-    road_x3 = 345*scale_x;
+    road_x3 = 325*scale_x;
     road_y3 = 0;
-    road_x4 = 321.5*scale_x;
+    road_x4 = 301.5*scale_x;
     road_y4 = 0;
 
-    green2_x1 = 339*scale_x;
+    green2_x1 = 319*scale_x;
     green2_y1 = 437.5*scale_y;
     green2_x2 = 510*scale_x;
     green2_y2 = 437.5*scale_y;
     green2_x3 = 510*scale_x;
     green2_y3 = 0;
-    green2_x4 = 320.5*scale_x;
+    green2_x4 = 300.5*scale_x;
     green2_y4 = 0;
 
     l1_x = 380 + 600;
