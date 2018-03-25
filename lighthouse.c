@@ -115,6 +115,7 @@ void edgedetect(GLfloat x1,GLfloat y1,GLfloat x2,GLfloat y2,int *le,int *re)
 
 void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b)
 {
+
     int le[1080],re[1080];
     int i, y;
     for(i=0;i<1080;i++)
