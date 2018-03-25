@@ -10,9 +10,13 @@ This requires a C complier to run the program. Follow the instruction to run the
 - Open the cbp file with codeblocks.
 - Build and run.
 
+
 ### On Ubuntu
 - To compile the program: `gcc lighthouse2.c -lglut -lGL -lGLU -o lighthouse`
 - To run the program `./lighthouse`
+
+### Resolution
+The current program runs perfectly in 1360 × 760 resolution. Before running the program the resolution can be changed in the program. 
 
 ## Team Members
 * [Nishant Kumar](https://github.com/NishantKr97),16IT123
