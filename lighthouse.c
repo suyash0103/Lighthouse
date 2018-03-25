@@ -29,13 +29,61 @@ void draw_pixel(int x, int y, float r, float g, float b)
 	glVertex3f(x, y,0);
 	glEnd();
 }
-
-/*void draw_pixel(int x, int y)
+void symmetricPixels (int x, int y, int xc, int yc)
 {
-	glBegin(GL_POINTS);
-	glVertex2i(x, y);
-	glEnd();
-}*/
+    draw_pixel(xc + x, yc + y, 0.0, 0.75, 1.0);
+    draw_pixel(xc - x, yc + y, 0.0, 0.75, 1.0);
+    draw_pixel(xc + x, yc - y, 0.0, 0.75, 1.0);
+    draw_pixel(xc - x, yc - y, 0.0, 0.75, 1.0);
+}
+
+void EllipseX (int a, int b, int xc, int yc)
+{
+    int aSq,bSq,twoASq,twoBSq,d,dx,dy,x,y;
+    aSq = a*a;
+    bSq = b*b;
+    twoASq = 2*aSq;
+    twoBSq = 2*bSq;
+    d = bSq - b*aSq + aSq/4;
+    dx = 0;
+    dy = twoASq*b;
+    x = 0;
+    y = b;
+    symmetricPixels(x,y,xc,yc);
+    while (dx < dy)
+    {
+        x++;
+        dx += twoBSq;
+        if (d >= 0)
+        {
+            y--;
+            dy -= twoASq;
+        }
+        if (d < 0)
+            d += bSq + dx;
+        else
+            d += bSq + dx - dy;
+        symmetricPixels (x,y,xc,yc);
+    }
+    d = (int)(bSq*(x+0.5)*(x+0.5) + aSq*(y-1)*(y-1) -
+              aSq*bSq);
+    while (y > 0)
+    {
+        y--;
+        dy -= twoASq;
+        if (d <= 0)
+        {
+            x++;
+            dx += twoBSq;
+        }
+        if (d > 0)
+            d += aSq - dy;
+        else
+            d += aSq -dy +dx;
+        symmetricPixels(x,y,xc,yc);
+    }
+    glFlush();
+}
 
 void edgedetect(GLfloat x1,GLfloat y1,GLfloat x2,GLfloat y2,int *le,int *re)
 {
@@ -222,6 +270,9 @@ void myDisplay()
 
     // Pillar
     scanfill(p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y, 0.0, 0.75, 1.0);
+
+    EllipseX(25, 7, 1010, 350);
+    EllipseX(25, 7, 1010, 410);
 
 	glFlush();
 }
