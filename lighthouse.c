@@ -117,7 +117,6 @@ void edgedetect(GLfloat x1,GLfloat y1,GLfloat x2,GLfloat y2,int *le,int *re)
 
 void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b)
 {
-
     int le[1080],re[1080];
     int i, y;
     for(i=0;i<1080;i++)
@@ -201,6 +200,10 @@ void draw_line(int x1, int x2, int y1, int y2, float r, float g, float b)
 void draw_boat(int boat_x, int boat_y)
 {
     int b2_x, b2_y, b3_x, b3_y, b4_x, b4_y, b5_x, b5_y, b6_x, b6_y, b7_x, b7_y, b8_x, b8_y;
+    int f1_x, f1_y, f2_x, f2_y, f3_x, f3_y, f4_x, f4_y, f5_x, f5_y, f6_x, f6_y, f7_x, f7_y;
+    int p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y, p5_x, p5_y, p6_x, p6_y, p7_x, p7_y, p8_x, p8_y;
+    int c1_x, c1_y, c2_x, c2_y, c3_x, c3_y;
+
     b2_x = boat_x + 120;
     b3_x = boat_x + 100;
     b4_x = boat_x + 20;
@@ -217,17 +220,75 @@ void draw_boat(int boat_x, int boat_y)
     b8_x = b4_x;
     b8_y = boat_y - 10;
 
-    /*draw_line(boat_x, b4_x, boat_y, b4_y, 1.0, 1.0, 1.0);
-    draw_line(b4_x, b3_x, b4_y, b3_y, 1.0, 1.0, 1.0);
-    draw_line(b2_x, b3_x, b2_y, b3_y, 1.0, 1.0, 1.0);*/
+    f1_x = b5_x;
+    f1_y = (b5_y + b8_y) / 2 + 10 - 5 + 10;
+    f2_x = b6_x;
+    f2_y = f1_y;
+    f3_x = b6_x;
+    f3_y = (b6_y + b7_y) / 2 - 5;
+    f4_x = b5_x;
+    f4_y = f3_y;
 
+    f5_x = f1_x + 5;
+    f5_y = f1_y + 5;
+    f6_x = f2_x + 5;
+    f6_y = f2_y + 5;
+    f7_x = f3_x + 5;
+    f7_y = f3_y + 5;
+
+    p1_x = f5_x + 10;
+    p1_y = (f1_y + f5_y) / 2 + 30;
+    p2_x = p1_x + 20;
+    p2_y = p1_y;
+    p3_x = p2_x;
+    p3_y = (f1_y + f5_y) / 2;
+    p4_x = p1_x;
+    p4_y = p3_y;
+
+    p5_x = f2_x - 30;
+    p5_y = (f1_y + f5_y) / 2 + 30;
+    p6_x = p5_x + 20;
+    p6_y = p5_y;
+    p7_x = p6_x;
+    p7_y = (f1_y + f5_y) / 2;
+    p8_x = p5_x;
+    p8_y = p7_y;
+
+    // Sideways Boat
     scanfill(boat_x, boat_y, b2_x, b2_y, b3_x, b3_y, b4_x, b4_y, 0.0, 0.0, 0.0);
-    scanfill(boat_x, boat_y, b5_x, b5_y, b8_x, b8_y, boat_x, boat_y, .661, .598, .302);
-    scanfill(b5_x - 1, b5_y, b6_x, b6_y, b7_x, b7_y, b8_x - 1, b8_y, .661, .598, .302);
-    scanfill(b6_x - 1, b6_y, b2_x, b2_y, b7_x - 1, b7_y, b6_x - 1, b6_y, .661, .598, .302);
+
+    // Base of boat
+    scanfill(boat_x, boat_y, b5_x, b5_y, b8_x, b8_y, boat_x, boat_y, 0.65, 0.16, 0.16);
+    scanfill(b5_x - 1, b5_y, b6_x, b6_y, b7_x, b7_y, b8_x - 1, b8_y, 0.65, 0.16, 0.16);
+    scanfill(b6_x - 1, b6_y, b2_x, b2_y, b7_x - 1, b7_y, b6_x - 1, b6_y, 0.65, 0.16, 0.16);
+
+    // Level 1 of boat
+    scanfill(f1_x, f1_y, f2_x, f2_y, f3_x, f3_y, f4_x, f4_y, 0.31, 0.31, 0.31);
+    scanfill(f5_x, f5_y, f6_x, f6_y, f2_x, f2_y, f1_x, f1_y, 0.31, 0.31, 0.31);
+    scanfill(f2_x, f2_y, f6_x, f6_y, f7_x, f7_y, f3_x, f3_y, 0.31, 0.31, 0.31);
+
+    //Pillars
+    scanfill(p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y, 0.0, 0.0, 0.0);
+    scanfill(p5_x, p5_y, p6_x, p6_y, p7_x, p7_y, p8_x, p8_y, 0.0, 0.0, 0.0);
 
     int mid_x = (boat_x + b2_x) / 2;
     int mid_y = boat_y;
+
+    c1_x = b4_x + 5;
+    c1_y = (b4_y + b8_y) / 2;
+    c2_x = c1_x + 35;
+    c2_y = c1_y;
+    c3_x = c2_x + 35;
+    c3_y = c1_y;
+
+    int i;
+    for(i = 3; i < 8; i++)
+    {
+        EllipseX(i, i, c1_x, c1_y);
+        EllipseX(i, i, c2_x, c2_y);
+        EllipseX(i, i, c3_x, c3_y);
+    }
+
     //EllipseX(60, 10, mid_x, mid_y);
 }
 
@@ -306,10 +367,12 @@ void myDisplay()
 
     // Pillar
     scanfill(p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y, 1.0, 0.0, 0.0);
+
     int i;
-    for(i=0;i<25;i++){
-    EllipseX(i, 7, 1010, 350);
-    EllipseX(i, 7, 1010, 410);
+    for(i = 0; i < 25; i++)
+    {
+        EllipseX(i, 7, 1010, 350);
+        EllipseX(i, 7, 1010, 410);
     }
 
     draw_boat(boat_x, boat_y);
