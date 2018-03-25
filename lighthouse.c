@@ -195,7 +195,10 @@ void myDisplay()
     scanfill(l1_x, l1_y, l2_x, l2_y, l3_x, l3_y, l4_x, l4_y, 1.0, 0.0, 0.0);
     scanfill(l5_x, l5_y, l1_x + 1, l1_y, l4_x + 1, l4_y, l6_x, l6_y, 1.0, 0.0, 0.0);
 
+    // Line for 3D Effect
     draw_line(l1_x, l1_x, l1_y, 0, 0.41, 0.41, 0.41);
+
+    //scanfill(l1_x - 10, l1_y, )
 
 	glFlush();
 }
@@ -271,6 +274,8 @@ void main(int argc, char **argv)
     l5_y = 10 + 15;
     l6_x = 380 - 15;
     l6_y = 0;
+
+
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
