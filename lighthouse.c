@@ -140,6 +140,7 @@ void draw_line(int x1, int x2, int y1, int y2, float r, float g, float b)
 
 void myDisplay()
 {
+<<<<<<< HEAD
     // Drawing The Horizon
 	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 99.0, 1);
 
@@ -148,6 +149,11 @@ void myDisplay()
 
     // Drawing The Beach
     scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3, beach_y3, beach_x4, beach_y4, 76, 69, 50);
+=======
+	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 99, 1);
+    scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 100.0);
+    scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3, beach_y3, beach_x4, beach_y4, .9, .33, .19);
+>>>>>>> be6020ba7f31ca23d68bb1a95e984ba6455ebc1e
 
 	glFlush();
 }
@@ -182,7 +188,7 @@ void main(int argc, char **argv)
     beach_y4 = 0;
 
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
+	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(0, 0);
     glutCreateWindow("Bresenham's Line Drawing");
