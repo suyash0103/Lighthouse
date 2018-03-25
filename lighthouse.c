@@ -270,9 +270,12 @@ void myDisplay()
 
     // Pillar
     scanfill(p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y, 0.0, 0.75, 1.0);
+    int i;
+    for(i=0;i<25;i++){
+    EllipseX(i, 7, 1010, 350);
+    EllipseX(i, 7, 1010, 410);
+    }
 
-    EllipseX(25, 7, 1010, 350);
-    EllipseX(25, 7, 1010, 410);
 
 	glFlush();
 }
