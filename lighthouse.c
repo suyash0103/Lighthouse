@@ -8,7 +8,9 @@ int beach_x1, beach_y1, beach_x2, beach_y2, beach_x3, beach_y3, beach_x4, beach_
 int green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4;
 int green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4;
 int road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4;
-int l1_x, l1_y, l2_x, l2_y, l3_x, l3_y, l4_x, l4_y, l5_x, l5_y, l6_x, l6_y, l7_x, l7_y, l8_x, l8_y;
+int l1_x, l1_y, l2_x, l2_y, l3_x, l3_y, l4_x, l4_y, l5_x, l5_y, l6_x, l6_y;
+int p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y;
+
 float scale_x=2.736;
 float scale_y=1.44;
 
@@ -218,6 +220,9 @@ void myDisplay()
     scanfill(l5_x, l5_y, l1_x, l1_y, l4_x, l4_y, l6_x, l6_y, 1.0, 1.0, 1.0);
     scanfill(l5_x, l5_y, l5_x + 85, l5_y + 10, l2_x, l2_y, l1_x, l1_y, 1.0, 1.0, 1.0);
 
+    // Pillar
+    scanfill(p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y, 0.0, 0.75, 1.0);
+
 	glFlush();
 }
 
@@ -291,6 +296,14 @@ void main(int argc, char **argv)
     l6_x = (370 - 10) + 600;
     l6_y = 0;
 
+    p1_x = 985;
+    p1_y = 410;
+    p2_x = 1035;
+    p2_y = 410;
+    p3_x = 1035;
+    p3_y = 350;
+    p4_x = 985;
+    p4_y = 350;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
