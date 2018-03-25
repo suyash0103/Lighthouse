@@ -337,27 +337,27 @@ void main(int argc, char **argv)
     green2_x4 = 300.5*scale_x;
     green2_y4 = 0;
 
-    l1_x = 380 + 600;
-    l1_y = 10;
-    l2_x = (470 - 5) + 600;
-    l2_y = 20;
-    l3_x = (470 - 5) + 600;
+    l1_x = (380 + 600)*500*scale_x/1368;
+    l1_y = 10*500*scale_y/720;
+    l2_x = ((470 - 5) + 600)*500*scale_x/1368;
+    l2_y = 20*500*scale_y/720;
+    l3_x = ((470 - 5) + 600)*500*scale_x/1368;
     l3_y = 0;
-    l4_x = 380 + 600;
+    l4_x = (380 + 600)*500*scale_x/1368;
     l4_y = 0;
-    l5_x = (370 - 10) + 600;
-    l5_y = 25;
-    l6_x = (370 - 10) + 600;
+    l5_x = ((370 - 10) + 600)*500*scale_x/1368;
+    l5_y = 25*500*scale_y/720;
+    l6_x = ((370 - 10) + 600)*500*scale_x/1368;
     l6_y = 0;
 
-    p1_x = 985;
-    p1_y = 410;
-    p2_x = 1035;
-    p2_y = 410;
-    p3_x = 1035;
-    p3_y = 350;
-    p4_x = 985;
-    p4_y = 350;
+    p1_x = 985*500*scale_x/1368;
+    p1_y = 410*500*scale_y/720;
+    p2_x = 1035*500*scale_x/1368;
+    p2_y = 410*500*scale_y/720;
+    p3_x = 1035*500*scale_x/1368;
+    p3_y = 350*500*scale_y/720;
+    p4_x = 985*500*scale_x/1368;
+    p4_y = 350*500*scale_y/720;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
