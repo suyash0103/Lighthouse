@@ -4,29 +4,30 @@
 
 int horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x3, horizon_y3, horizon_x4, horizon_y4;
 int sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4;
+int beach_x1, beach_y1, beach_x2, beach_y2, beach_x3, beach_y3, beach_x4, beach_y4;
 
 void myInit()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glMatrixMode(GL_PROJECTION);
-	gluOrtho2D(-250, 250,-250, 250);
+	gluOrtho2D(0, 500,0, 500);
 }
 
-void draw_pixel_horizon(int x, int y)
+void draw_pixel(int x, int y, float r, float g, float b)
 {
-    glColor3f(0.0,1.0,100.0);
+    glColor3f(r, g, b);
 	glBegin(GL_POINTS);
 	glVertex2i(x, y);
 	glEnd();
 }
 
-void draw_pixel(int x, int y)
+/*void draw_pixel(int x, int y)
 {
 	glBegin(GL_POINTS);
 	glVertex2i(x, y);
 	glEnd();
-}
+}*/
 
 void edgedetect(GLfloat x1,GLfloat y1,GLfloat x2,GLfloat y2,int *le,int *re)
 {
@@ -54,28 +55,32 @@ void edgedetect(GLfloat x1,GLfloat y1,GLfloat x2,GLfloat y2,int *le,int *re)
             }                                  // is float so automatic type conversion.
 }
 
-void scanfill(float x1,float y1,float x2,float y2,float x3,float y3,float x4,float y4)
+void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b)
 {
-            int le[500],re[500];
-            int i,y;
-            for(i=0;i<500;i++)   // initialize le and re array values
+    int le[500],re[500];
+    int i,y;
+    for(i=0;i<500;i++)
+    {
+        le[i]=1000;
+        re[i]=0;
+    }
+    edgedetect(x1,y1,x2,y2,le,re);
+    edgedetect(x2,y2,x3,y3,le,re);
+    edgedetect(x3,y3,x4,y4,le,re);
+    edgedetect(x4,y4,x1,y1,le,re);
+    for(y=0;y<500;y++)        // for every scan line with value y
+    {
+        if(le[y]<=re[y])
+        {
+            for(i=le[y]+1;i<re[y];i++)
             {
-                        le[i]=1000;
-                        re[i]=0;
+                draw_pixel(i, y, r, g, b);
             }
-            edgedetect(x1,y1,x2,y2,le,re);    // call edge detect four times
-            edgedetect(x2,y2,x3,y3,le,re);    // once for each edge.
-            edgedetect(x3,y3,x4,y4,le,re);
-            edgedetect(x4,y4,x1,y1,le,re);
-for(y=0;y<500;y++)        // for every scan line with value y
-{
-           if(le[y]<=re[y])            // refer to le and re arrays to see if a part
-                        for(i=le[y]+1;i<re[y];i++) // of the scanline is inside polygon
-                                    draw_pixel_horizon(i,y);       // if so draw a horizontal line from
-}                                                              // left edge to right edge
+        }
+    }
 }
 
-void draw_line(int x1, int x2, int y1, int y2)
+void draw_line(int x1, int x2, int y1, int y2, float r, float g, float b)
 {
 	int dx, dy, i, e;
 	int incx, incy, inc1, inc2;
@@ -93,7 +98,7 @@ void draw_line(int x1, int x2, int y1, int y2)
 	x = x1; y = y1;
 	if (dx > dy)
     {
-		draw_pixel_horizon(x, y);
+		draw_pixel(x, y, r, g, b);
 		e = 2 * dy-dx;
 		inc1 = 2*(dy-dx);
 		inc2 = 2*dy;
@@ -107,12 +112,12 @@ void draw_line(int x1, int x2, int y1, int y2)
 			else
 				e += inc2;
 			x += incx;
-			draw_pixel_horizon(x, y);
+			draw_pixel(x, y, r, g, b);
 		}
 	}
 	else
     {
-		draw_pixel_horizon(x, y);
+		draw_pixel(x, y, r, g, b);
 		e = 2*dx-dy;
 		inc1 = 2*(dx-dy);
 		inc2 = 2*dx;
@@ -126,55 +131,59 @@ void draw_line(int x1, int x2, int y1, int y2)
 			else
 				e += inc2;
 			y += incy;
-			draw_pixel_horizon(x, y);
+			draw_pixel(x, y, r, g, b);
 		}
 	}
 }
 
 void myDisplay()
 {
-
     // Drawing The Horizon
 	/*draw_line(horizon_x1, horizon_x2, horizon_y1, horizon_y2);
 	draw_line(horizon_x1, horizon_x3, horizon_y1, horizon_y3);
 	draw_line(horizon_x3, horizon_x4, horizon_y3, horizon_y4);
 	draw_line(horizon_x2, horizon_x4, horizon_y2, horizon_y4);*/
-	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3);
-
+	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 1.0, 100.0);
 
 	// Drawing The Sea
 	/*draw_line(sea_x1, sea_x2, sea_y1, sea_y2);
 	draw_line(sea_x1, sea_x3, sea_y1, sea_y3);
 	draw_line(sea_x3, sea_x4, sea_y3, sea_y4);
 	draw_line(sea_x2, sea_x4, sea_y2, sea_y4);*/
-	scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x4, sea_y4, sea_x3, sea_y3);
+    //scanfill(-250, 0, -250, 100, 250, 100, 250, 0);
+    //scanfill(0, 0, 0, 150, 250, 250, 250, 0);
+    scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 100.0);
+
+    scanfill();
 
 	glFlush();
 }
 
 void main(int argc, char **argv)
 {
-	horizon_x1 = -260;
-	horizon_y1 = 250;
-	horizon_x2 = 250;
-	horizon_y2 = 250;
-	horizon_x3 = -260;
-	horizon_y3 = 185;
-	horizon_x4 = 250;
-	horizon_y4 = 190;
+	horizon_x1 = 0;
+	horizon_y1 = 500;
+	horizon_x2 = 500;
+	horizon_y2 = 500;
+	horizon_x3 = 0;
+	horizon_y3 = 440;
+	horizon_x4 = 500;
+	horizon_y4 = 435;
 
-    sea_x1 = -250;
+    sea_x1 = 0;
     sea_y1 = 0;
-    sea_x2 = 250;
-    sea_y2 = 0;
-    sea_x3 = -250;
-    sea_y3 = -250;
-    sea_x4 = 250;
-    sea_y4 = -250;
+    sea_x2 = 0;
+    sea_y2 = 440;
+    sea_x3 = 250;
+    sea_y3 = 437.5;
+    sea_x4 = 200;
+    sea_y4 = 0;
+
+
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
-	glutInitWindowSize(1000, 650);
+	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(0, 0);
     glutCreateWindow("Bresenham's Line Drawing");
     glutFullScreen();
