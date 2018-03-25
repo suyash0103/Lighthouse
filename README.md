@@ -11,7 +11,7 @@ This requires a C complier to run the program. Follow the instruction to run the
 - Build and run.
 
 ### On Ubuntu
-- To compile the program: `gcc lighthouse2.c -lglut -lGL -lGLU -o lighthouse`,
+- To compile the program: `gcc lighthouse2.c -lglut -lGL -lGLU -o lighthouse`
 - To run the program `./lighthouse`
 
 ## Team Members
