@@ -31,34 +31,36 @@ void draw_pixel(int x, int y, float r, float g, float b)
 
 void edgedetect(GLfloat x1,GLfloat y1,GLfloat x2,GLfloat y2,int *le,int *re)
 {
-            float mx,x,temp;
-            int i;
-            if((y2-y1)<0)    // if second point is below first point interchange them
-            {
-              temp=x1;x1=x2;x2=temp;
-              temp=y1;y1=y2;y2=temp;
-            }
-              if((y2-y1)!=0)      // if denominator is zero we can't find slope
-                        mx=(x2-x1)/(y2-y1);
-            else
-                        mx=x2-x1;    // y2-y1=0 implies line is horizontal
-            x=x1;
-            for(i=y1;i<y2;i++)        // starting from x1,y1 add slope mx to x
-            {                                  // and round it to find the next point on the
-                                                // line. For that particular scan line i
-                        if(x<le[i])         // insert the x value into either le or re.
-                                    le[i]=x; // Initially both le and re will contain same
-                                                // value...
-                        if(x>re[i])         // in the next time for the other edge
-                                    re[i]=x; // either le or re will change
-                        x+=mx;            // NOTE: le and re are integer arrays and x
-            }                                  // is float so automatic type conversion.
+    float mx,x,temp;
+    int i;
+    if((y2 - y1) < 0)    // if second point is below first point interchange them
+    {
+        temp = x1;
+        x1 = x2;
+        x2 = temp;
+        temp = y1;
+        y1 = y2;
+        y2 = temp;
+    }
+    if((y2 - y1) != 0)      // if denominator is zero we can't find slope
+        mx = (x2 - x1)/(y2 - y1);
+    else
+        mx = x2 - x1;    // y2-y1=0 implies line is horizontal
+    x = x1;
+    for(i = y1; i < y2; i++)        // starting from x1,y1 add slope mx to x
+    {                                  // and round it to find the next point on the                                        // line. For that particular scan line i
+        if(x < le[i])         // insert the x value into either le or re.
+            le[i] = x; // Initially both le and re will contain same value...
+        if(x > re[i])         // in the next time for the other edge
+            re[i] = x; // either le or re will change
+        x += mx;            // NOTE: le and re are integer arrays and x
+    }                          // is float so automatic type conversion.
 }
 
 void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b)
 {
     int le[500],re[500];
-    int i,y;
+    int i, y;
     for(i=0;i<500;i++)
     {
         le[i]=1000;
@@ -78,7 +80,6 @@ void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float 
             }
         }
     }
-    SwapBuffers();
 }
 
 void draw_line(int x1, int x2, int y1, int y2, float r, float g, float b)
@@ -140,21 +141,12 @@ void draw_line(int x1, int x2, int y1, int y2, float r, float g, float b)
 void myDisplay()
 {
     // Drawing The Horizon
-	/*draw_line(horizon_x1, horizon_x2, horizon_y1, horizon_y2);
-	draw_line(horizon_x1, horizon_x3, horizon_y1, horizon_y3);
-	draw_line(horizon_x3, horizon_x4, horizon_y3, horizon_y4);
-	draw_line(horizon_x2, horizon_x4, horizon_y2, horizon_y4);*/
 	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 99.0, 1);
 
 	// Drawing The Sea
-	/*draw_line(sea_x1, sea_x2, sea_y1, sea_y2);
-	draw_line(sea_x1, sea_x3, sea_y1, sea_y3);
-	draw_line(sea_x3, sea_x4, sea_y3, sea_y4);
-	draw_line(sea_x2, sea_x4, sea_y2, sea_y4);*/
-    //scanfill(-250, 0, -250, 100, 250, 100, 250, 0);
-    //scanfill(0, 0, 0, 150, 250, 250, 250, 0);
     scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 100.0);
 
+    // Drawing The Beach
     scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3, beach_y3, beach_x4, beach_y4, 76, 69, 50);
 
 	glFlush();
