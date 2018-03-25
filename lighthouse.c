@@ -11,6 +11,8 @@ int road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4;
 int l1_x, l1_y, l2_x, l2_y, l3_x, l3_y, l4_x, l4_y, l5_x, l5_y, l6_x, l6_y;
 int p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y;
 
+int boat_x, boat_y;
+
 float scale_x=2.736;
 float scale_y=1.44;
 
@@ -31,10 +33,10 @@ void draw_pixel(int x, int y, float r, float g, float b)
 }
 void symmetricPixels (int x, int y, int xc, int yc)
 {
-    draw_pixel(xc + x, yc + y, 0.0, 0.75, 1.0);
-    draw_pixel(xc - x, yc + y, 0.0, 0.75, 1.0);
-    draw_pixel(xc + x, yc - y, 0.0, 0.75, 1.0);
-    draw_pixel(xc - x, yc - y, 0.0, 0.75, 1.0);
+    draw_pixel(xc + x, yc + y, 1.0, 0.0, 0.0);
+    draw_pixel(xc - x, yc + y, 1.0, 0.0, 0.0);
+    draw_pixel(xc + x, yc - y, 1.0, 0.0, 0.0);
+    draw_pixel(xc - x, yc - y, 1.0, 0.0, 0.0);
 }
 
 void EllipseX (int a, int b, int xc, int yc)
@@ -195,6 +197,39 @@ void draw_line(int x1, int x2, int y1, int y2, float r, float g, float b)
 	}
 }
 
+void draw_boat(int boat_x, int boat_y)
+{
+    int b2_x, b2_y, b3_x, b3_y, b4_x, b4_y, b5_x, b5_y, b6_x, b6_y, b7_x, b7_y, b8_x, b8_y;
+    b2_x = boat_x + 120;
+    b3_x = boat_x + 100;
+    b4_x = boat_x + 20;
+    b2_y = boat_y;
+    b3_y = boat_y - 40;
+    b4_y = boat_y - 40;
+
+    b5_x = b4_x;
+    b5_y = boat_y + 10;
+    b6_x = b3_x;
+    b6_y = boat_y + 10;
+    b7_x = b3_x;
+    b7_y = boat_y - 10;
+    b8_x = b4_x;
+    b8_y = boat_y - 10;
+
+    /*draw_line(boat_x, b4_x, boat_y, b4_y, 1.0, 1.0, 1.0);
+    draw_line(b4_x, b3_x, b4_y, b3_y, 1.0, 1.0, 1.0);
+    draw_line(b2_x, b3_x, b2_y, b3_y, 1.0, 1.0, 1.0);*/
+
+    scanfill(boat_x, boat_y, b2_x, b2_y, b3_x, b3_y, b4_x, b4_y, 0.0, 0.0, 0.0);
+    scanfill(boat_x, boat_y, b5_x, b5_y, b8_x, b8_y, boat_x, boat_y, .661, .598, .302);
+    scanfill(b5_x - 1, b5_y, b6_x, b6_y, b7_x, b7_y, b8_x - 1, b8_y, .661, .598, .302);
+    scanfill(b6_x - 1, b6_y, b2_x, b2_y, b7_x - 1, b7_y, b6_x - 1, b6_y, .661, .598, .302);
+
+    int mid_x = (boat_x + b2_x) / 2;
+    int mid_y = boat_y;
+    //EllipseX(60, 10, mid_x, mid_y);
+}
+
 void myDisplay()
 {
 	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 0.75, 1.0);
@@ -269,13 +304,14 @@ void myDisplay()
     scanfill(l5_x, l5_y, l5_x + 85, l5_y + 10, l2_x, l2_y, l1_x, l1_y, 1.0, 1.0, 1.0);
 
     // Pillar
-    scanfill(p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y, 0.0, 0.75, 1.0);
+    scanfill(p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y, 1.0, 0.0, 0.0);
     int i;
     for(i=0;i<25;i++){
     EllipseX(i, 7, 1010, 350);
     EllipseX(i, 7, 1010, 410);
     }
 
+    draw_boat(boat_x, boat_y);
 
 	glFlush();
 }
@@ -358,6 +394,9 @@ void main(int argc, char **argv)
     p3_y = 350*500*scale_y/720;
     p4_x = 985*500*scale_x/1368;
     p4_y = 350*500*scale_y/720;
+
+    boat_x = 10;
+    boat_y = 250 * scale_y;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
