@@ -380,6 +380,31 @@ void myDisplay()
 	glFlush();
 }
 
+void moveBoat(int key, int x, int y)
+{
+    switch(key)
+    {
+        case GLUT_KEY_LEFT:
+            if(boat_x > -15)
+            {
+                boat_x -= 10;
+                scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
+                draw_boat(boat_x, boat_y);
+            }
+            break;
+        case GLUT_KEY_RIGHT:
+            if(boat_x <= 175*scale_x)
+            {
+                boat_x += 10;
+                scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
+                draw_boat(boat_x, boat_y);
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 void main(int argc, char **argv)
 {
 	horizon_x1 = 0;
@@ -470,5 +495,6 @@ void main(int argc, char **argv)
     glutFullScreen();
     myInit();
 	glutDisplayFunc(myDisplay);
+	glutSpecialFunc(moveBoat);
 	glutMainLoop();
 }
