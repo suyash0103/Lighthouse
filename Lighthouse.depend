@@ -210,7 +210,7 @@
 1301111156 c:\program files (x86)\codeblocks\mingw\include\oleidl.h
 	<objfwd.h>
 
-1521214266 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
+1521214239 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
 	<windows.h>
 	<GL/gl.h>
 	<GL/glu.h>
@@ -240,6 +240,11 @@
 	<stdio.h>
 
 1521939833 source:f:\gihub\lighthouse\lighthouse.c
+	<windows.h>
+	<gl/glut.h>
+	<stdio.h>
+
+1521964234 source:c:\github\lighthouse\lighthouse.c
 	<windows.h>
 	<gl/glut.h>
 	<stdio.h>
