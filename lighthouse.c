@@ -147,15 +147,8 @@ void myDisplay()
     scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
     scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3,  beach_y3, beach_x4, beach_y4, .661, .598, .302);
     scanfill(green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4, 0.0, 0.49, 0.0);
-<<<<<<< HEAD
     scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
     scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
-=======
-    //scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
-    scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
-
-
->>>>>>> 31f1b79a858b934fcd717efff266a195c314cdd1
 
 	glFlush();
 }
@@ -191,11 +184,7 @@ void main(int argc, char **argv)
 
     green1_x1 = 271.5;
     green1_y1 = 437.5;
-<<<<<<< HEAD
     green1_x2 = 335;
-=======
-    green1_x2 = 325;
->>>>>>> 31f1b79a858b934fcd717efff266a195c314cdd1
     green1_y2 = 437.5;
     green1_x3 = 322.5;
     green1_y3 = 0;
@@ -203,7 +192,6 @@ void main(int argc, char **argv)
     green1_y4 = 0;
 
 
-<<<<<<< HEAD
     road_x1 = 334;
     road_y1 = 437.5;
     road_x2 = 340;
@@ -222,25 +210,6 @@ void main(int argc, char **argv)
     green2_x4 = 320.5;
     green2_y4 = 0;
 
-=======
-    road_x1 = 325;
-    road_y1 = 437.5;
-    road_x2 = 329;
-    road_y2 = 437.5;
-    road_x3 = 335;
-    road_y3 = 0;
-    road_x4 = 312.5;
-    road_y4 = 0;
-  /*  green2_x1 = 312.5;
-    green2_y1 = 437.5;
-    green2_x2 = 335;
-    green2_y2 = 437.5;
-    green2_x3 = 350;
-    green2_y3 = 0;
-    green2_x4 = 312.5;
-    green2_y4 = 0;
-*/
->>>>>>> 31f1b79a858b934fcd717efff266a195c314cdd1
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
 	glutInitWindowSize(500, 500);
