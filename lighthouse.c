@@ -18,7 +18,7 @@ void draw_pixel(int x, int y, float r, float g, float b)
 {
     glColor3f(r, g, b);
 	glBegin(GL_POINTS);
-	glVertex2i(x, y);
+	glVertex3f(x, y,0);
 	glEnd();
 }
 
@@ -78,6 +78,7 @@ void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float 
             }
         }
     }
+    SwapBuffers();
 }
 
 void draw_line(int x1, int x2, int y1, int y2, float r, float g, float b)
@@ -143,7 +144,7 @@ void myDisplay()
 	draw_line(horizon_x1, horizon_x3, horizon_y1, horizon_y3);
 	draw_line(horizon_x3, horizon_x4, horizon_y3, horizon_y4);
 	draw_line(horizon_x2, horizon_x4, horizon_y2, horizon_y4);*/
-	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 1.0, 100.0);
+	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 99.0, 1);
 
 	// Drawing The Sea
 	/*draw_line(sea_x1, sea_x2, sea_y1, sea_y2);
@@ -154,7 +155,7 @@ void myDisplay()
     //scanfill(0, 0, 0, 150, 250, 250, 250, 0);
     scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 100.0);
 
-    scanfill();
+    scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3, beach_y3, beach_x4, beach_y4, 76, 69, 50);
 
 	glFlush();
 }
@@ -179,7 +180,14 @@ void main(int argc, char **argv)
     sea_x4 = 200;
     sea_y4 = 0;
 
-
+    beach_x1 = 250;
+    beach_y1 = 437.5;
+    beach_x2 = 270;
+    beach_y2 = 437.5;
+    beach_x3 = 250;
+    beach_y3 = 0;
+    beach_x4 = 200;
+    beach_y4 = 0;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
