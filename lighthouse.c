@@ -11,12 +11,15 @@ int road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4;
 int l1_x, l1_y, l2_x, l2_y, l3_x, l3_y, l4_x, l4_y, l5_x, l5_y, l6_x, l6_y;
 int p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y;
 int beacon_x1, beacon_y1, beacon_x2, beacon_y2, beacon_x3, beacon_y3, beacon_x4, beacon_y4;
-int beam_x1, beam_y1, beam_x4, beam_y4;
 
 int boat_x, boat_y;
+float angle = 0, theta;
 
 float scale_x=2.736;
 float scale_y=1.44;
+
+float beam_x1, beam_y1, beam_x4, beam_y4;
+
 
 void myInit()
 {
@@ -294,23 +297,7 @@ void draw_boat(int boat_x, int boat_y)
     //EllipseX(60, 10, mid_x, mid_y);
 }
 
-void myDisplay()
-{
-	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 0.75, 1.0);
-    scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
-    scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3,  beach_y3, beach_x4, beach_y4, .661, .598, .302);
-    scanfill(green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4, 0.0, 0.49, 0.0);
-    scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
-    scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
 
-    draw_lighthouse();
-
-    draw_beam();
-
-    draw_boat(boat_x, boat_y);
-
-	glFlush();
-}
 
 void draw_lighthouse()
 {
@@ -395,8 +382,8 @@ void draw_lighthouse()
 
 void draw_beam()
 {
-    beam_x1 = 100 * scale_x;
-    beam_y1 = 400 * scale_y;
+    //beam_x1 = 100 * scale_x;
+    //beam_y1 = 400 * scale_y;
     beam_x4 = beam_x1;
     beam_y4 = beam_y1 - 40;
     scanfill(beam_x1, beam_y1, beacon_x1, beacon_y1, beacon_x4, beacon_y4, beam_x4, beam_y4, 1.0, 0.98, 0.80);
@@ -410,6 +397,29 @@ void draw_beam()
         EllipseX(i, 7, 1010, 350, 1.0, 0.0, 0.0);
         EllipseX(i, 7, 1010, 410, 1.0, 0.0, 0.0);
     }
+}
+
+
+void rotateBeam()
+{
+       theta = angle* 3.14 / 180;
+
+
+
+       beam_x1 =  ((float)(beam_x1) * cos(theta)) + ((float)(beam_y1) * sin(theta));
+       beam_y1 =  ((float)(beam_x1) * sin(theta)) - ((float)(beam_y1) * cos(theta));
+
+
+
+        scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
+        scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3,  beach_y3, beach_x4, beach_y4, .661, .598, .302);
+        scanfill(green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4, 0.0, 0.49, 0.0);
+        scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
+        scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
+        draw_beam();
+
+//glFlush();
+
 }
 
 void moveBoat(int key, int x, int y)
@@ -437,6 +447,31 @@ void moveBoat(int key, int x, int y)
         default:
             break;
     }
+}
+
+
+
+void myDisplay()
+{
+	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 0.75, 1.0);
+    scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
+    scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3,  beach_y3, beach_x4, beach_y4, .661, .598, .302);
+    scanfill(green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4, 0.0, 0.49, 0.0);
+    scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
+    scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
+
+
+        rotateBeam();
+        angle -= 0.5;
+
+
+        draw_lighthouse();
+
+    //draw_beam();
+
+        draw_boat(boat_x, boat_y);
+
+	     glFlush();
 }
 
 void main(int argc, char **argv)
@@ -520,6 +555,9 @@ void main(int argc, char **argv)
 
     boat_x = 10;
     boat_y = 250 * scale_y;
+
+    beam_x1 = 100 * scale_x;
+    beam_y1 = 400 * scale_y;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
