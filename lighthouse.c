@@ -23,18 +23,18 @@ float beam_x1, beam_y1, beam_x4, beam_y4;
 
 void myInit()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
-	glClearColor(0.0, 0.0, 0.0, 1.0);
-	glMatrixMode(GL_PROJECTION);
-	gluOrtho2D(0, 1368, 0, 720);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(0, 1368, 0, 720);
 }
 
 void draw_pixel(int x, int y, float r, float g, float b)
 {
     glColor3f(r, g, b);
-	glBegin(GL_POINTS);
-	glVertex3f(x, y,0);
-	glEnd();
+    glBegin(GL_POINTS);
+    glVertex3f(x, y,0);
+    glEnd();
 }
 void symmetricPixels (int x, int y, int xc, int yc, float r, float g, float b)
 {
@@ -148,58 +148,58 @@ void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float 
 
 void draw_line(int x1, int x2, int y1, int y2, float r, float g, float b)
 {
-	int dx, dy, i, e;
-	int incx, incy, inc1, inc2;
-	int x,y;
+    int dx, dy, i, e;
+    int incx, incy, inc1, inc2;
+    int x,y;
 
-	dx = x2-x1;
-	dy = y2-y1;
+    dx = x2-x1;
+    dy = y2-y1;
 
-	if (dx < 0) dx = -dx;
-	if (dy < 0) dy = -dy;
-	incx = 1;
-	if (x2 < x1) incx = -1;
-	incy = 1;
-	if (y2 < y1) incy = -1;
-	x = x1; y = y1;
-	if (dx > dy)
+    if (dx < 0) dx = -dx;
+    if (dy < 0) dy = -dy;
+    incx = 1;
+    if (x2 < x1) incx = -1;
+    incy = 1;
+    if (y2 < y1) incy = -1;
+    x = x1; y = y1;
+    if (dx > dy)
     {
-		draw_pixel(x, y, r, g, b);
-		e = 2 * dy-dx;
-		inc1 = 2*(dy-dx);
-		inc2 = 2*dy;
-		for (i=0; i<dx; i++)
-		{
-			if (e >= 0)
-			{
-				y += incy;
-				e += inc1;
-			}
-			else
-				e += inc2;
-			x += incx;
-			draw_pixel(x, y, r, g, b);
-		}
-	}
-	else
+        draw_pixel(x, y, r, g, b);
+        e = 2 * dy-dx;
+        inc1 = 2*(dy-dx);
+        inc2 = 2*dy;
+        for (i=0; i<dx; i++)
+        {
+            if (e >= 0)
+            {
+                y += incy;
+                e += inc1;
+            }
+            else
+                e += inc2;
+            x += incx;
+            draw_pixel(x, y, r, g, b);
+        }
+    }
+    else
     {
-		draw_pixel(x, y, r, g, b);
-		e = 2*dx-dy;
-		inc1 = 2*(dx-dy);
-		inc2 = 2*dx;
-		for (i=0; i<dy; i++)
-		{
-			if (e >= 0)
-			{
-				x += incx;
-				e += inc1;
-			}
-			else
-				e += inc2;
-			y += incy;
-			draw_pixel(x, y, r, g, b);
-		}
-	}
+        draw_pixel(x, y, r, g, b);
+        e = 2*dx-dy;
+        inc1 = 2*(dx-dy);
+        inc2 = 2*dx;
+        for (i=0; i<dy; i++)
+        {
+            if (e >= 0)
+            {
+                x += incx;
+                e += inc1;
+            }
+            else
+                e += inc2;
+            y += incy;
+            draw_pixel(x, y, r, g, b);
+        }
+    }
 }
 
 void draw_boat(int boat_x, int boat_y)
@@ -378,6 +378,23 @@ void draw_lighthouse()
     beacon_x4 = beacon_x1;
     beacon_y4 = beacon_y3;
     scanfill(beacon_x1, beacon_y1, beacon_x2, beacon_y2, beacon_x3, beacon_y3, beacon_x4, beacon_y4, 1.0, 1.0, 1.0);
+
+    int i;
+    for(i = 0; i < 25; i++)
+    {
+        EllipseX(i, 7, 1010, 350, 1.0, 0.0, 0.0);
+        EllipseX(i, 7, 1010, 410, 1.0, 0.0, 0.0);
+    }
+
+    /*beam_x1 = 100 * scale_x;
+    beam_y1 = 400 * scale_y;
+    beam_x4 = beam_x1;
+    beam_y4 = beam_y1 - 40;
+    scanfill(beam_x1, beam_y1, beacon_x1, beacon_y1, beacon_x4, beacon_y4, beam_x4, beam_y4, 1.0, 0.98, 0.80);
+    int j;
+    for(j = 0; j < 10; j++)
+        EllipseX(j, (beam_y1 - beam_y4) / 2, beam_x1, (beam_y1 + beam_y4) / 2, 1.0, 0.98, 0.80);*/
+
 }
 
 void draw_beam()
@@ -390,13 +407,6 @@ void draw_beam()
     int j;
     for(j = 0; j < 10; j++)
         EllipseX(j, (beam_y1 - beam_y4) / 2, beam_x1, (beam_y1 + beam_y4) / 2, 1.0, 0.98, 0.80);
-
-    int i;
-    for(i = 0; i < 25; i++)
-    {
-        EllipseX(i, 7, 1010, 350, 1.0, 0.0, 0.0);
-        EllipseX(i, 7, 1010, 410, 1.0, 0.0, 0.0);
-    }
 }
 
 
@@ -418,7 +428,7 @@ void rotateBeam()
         scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
         draw_beam();
 
-//glFlush();
+    glFlush();
 
 }
 
@@ -444,6 +454,32 @@ void moveBoat(int key, int x, int y)
                 draw_beam();
             }
             break;
+        case GLUT_KEY_UP:
+            if(beam_y1 > 250 * scale_y)
+            {
+                beam_x1 += 5;
+                beam_y1 += 40;
+            }
+            else
+            {
+                beam_x1 -= 5;
+                beam_y1 += 40;
+            }
+            //draw_beam();
+            break;
+        case GLUT_KEY_DOWN:
+            if(beam_y1 > 250 * scale_y)
+            {
+                beam_x1 -= 5;
+                beam_y1 -= 10;
+            }
+            else
+            {
+                beam_x1 += 5;
+                beam_y1 -= 10;
+            }
+            //draw_beam();
+            break;
         default:
             break;
     }
@@ -453,37 +489,35 @@ void moveBoat(int key, int x, int y)
 
 void myDisplay()
 {
-	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 0.75, 1.0);
+    scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 0.75, 1.0);
     scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
     scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3,  beach_y3, beach_x4, beach_y4, .661, .598, .302);
     scanfill(green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4, 0.0, 0.49, 0.0);
     scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
     scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
 
+    //rotateBeam();
+    //angle -= 0.5;
 
-        rotateBeam();
-        angle -= 0.5;
+    draw_lighthouse();
 
+    draw_beam();
 
-        draw_lighthouse();
+    draw_boat(boat_x, boat_y);
 
-    //draw_beam();
-
-        draw_boat(boat_x, boat_y);
-
-	     glFlush();
+    glFlush();
 }
 
 void main(int argc, char **argv)
 {
-	horizon_x1 = 0;
-	horizon_y1 = 500*scale_y;
-	horizon_x2 = 500*scale_x;
-	horizon_y2 = 500*scale_y;
-	horizon_x3 = 0;
-	horizon_y3 = 440*scale_y;
-	horizon_x4 = 500*scale_x;
-	horizon_y4 = 435*scale_y;
+    horizon_x1 = 0;
+    horizon_y1 = 500*scale_y;
+    horizon_x2 = 500*scale_x;
+    horizon_y2 = 500*scale_y;
+    horizon_x3 = 0;
+    horizon_y3 = 440*scale_y;
+    horizon_x4 = 500*scale_x;
+    horizon_y4 = 435*scale_y;
 
     sea_x1 = 0;
     sea_y1 = 0;
@@ -559,14 +593,14 @@ void main(int argc, char **argv)
     beam_x1 = 100 * scale_x;
     beam_y1 = 400 * scale_y;
 
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
-	glutInitWindowSize(1368, 720);
-	glutInitWindowPosition(0, 0);
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
+    glutInitWindowSize(1368, 720);
+    glutInitWindowPosition(0, 0);
     glutCreateWindow("Lighthouse");
     glutFullScreen();
     myInit();
-	glutDisplayFunc(myDisplay);
-	glutSpecialFunc(moveBoat);
-	glutMainLoop();
+    glutDisplayFunc(myDisplay);
+    glutSpecialFunc(moveBoat);
+    glutMainLoop();
 }
