@@ -301,6 +301,29 @@ void draw_boat(int boat_x, int boat_y)
 
 void draw_lighthouse()
 {
+    // Initialize
+    l1_x = (380 + 600)*500*scale_x/1368;
+    l1_y = 10*500*scale_y/720;
+    l2_x = ((470 - 5) + 600)*500*scale_x/1368;
+    l2_y = 20*500*scale_y/720;
+    l3_x = ((470 - 5) + 600)*500*scale_x/1368;
+    l3_y = 0;
+    l4_x = (380 + 600)*500*scale_x/1368;
+    l4_y = 0;
+    l5_x = ((370 - 10) + 600)*500*scale_x/1368;
+    l5_y = 25*500*scale_y/720;
+    l6_x = ((370 - 10) + 600)*500*scale_x/1368;
+    l6_y = 0;
+
+    p1_x = 985*500*scale_x/1368;
+    p1_y = 410*500*scale_y/720;
+    p2_x = 1035*500*scale_x/1368;
+    p2_y = 410*500*scale_y/720;
+    p3_x = 1035*500*scale_x/1368;
+    p3_y = 350*500*scale_y/720;
+    p4_x = 985*500*scale_x/1368;
+    p4_y = 350*500*scale_y/720;
+
     // Block 1
     scanfill(l1_x, l1_y, l2_x, l2_y, l3_x, l3_y, l4_x, l4_y, 1.0, 0.0, 0.0);
     scanfill(l5_x, l5_y, l1_x, l1_y, l4_x, l4_y, l6_x, l6_y, 1.0, 0.0, 0.0);
@@ -386,21 +409,10 @@ void draw_lighthouse()
         EllipseX(i, 7, 1010, 410, 1.0, 0.0, 0.0);
     }
 
-    /*beam_x1 = 100 * scale_x;
-    beam_y1 = 400 * scale_y;
-    beam_x4 = beam_x1;
-    beam_y4 = beam_y1 - 40;
-    scanfill(beam_x1, beam_y1, beacon_x1, beacon_y1, beacon_x4, beacon_y4, beam_x4, beam_y4, 1.0, 0.98, 0.80);
-    int j;
-    for(j = 0; j < 10; j++)
-        EllipseX(j, (beam_y1 - beam_y4) / 2, beam_x1, (beam_y1 + beam_y4) / 2, 1.0, 0.98, 0.80);*/
-
 }
 
 void draw_beam()
 {
-    //beam_x1 = 100 * scale_x;
-    //beam_y1 = 400 * scale_y;
     beam_x4 = beam_x1;
     beam_y4 = beam_y1 - 40;
     scanfill(beam_x1, beam_y1, beacon_x1, beacon_y1, beacon_x4, beacon_y4, beam_x4, beam_y4, 1.0, 0.98, 0.80);
@@ -412,24 +424,19 @@ void draw_beam()
 
 void rotateBeam()
 {
-       theta = angle* 3.14 / 180;
+    theta = angle* 3.14 / 180;
 
+    beam_x1 =  ((float)(beam_x1) * cos(theta)) + ((float)(beam_y1) * sin(theta));
+    beam_y1 =  ((float)(beam_x1) * sin(theta)) - ((float)(beam_y1) * cos(theta));
 
-
-       beam_x1 =  ((float)(beam_x1) * cos(theta)) + ((float)(beam_y1) * sin(theta));
-       beam_y1 =  ((float)(beam_x1) * sin(theta)) - ((float)(beam_y1) * cos(theta));
-
-
-
-        scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
-        scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3,  beach_y3, beach_x4, beach_y4, .661, .598, .302);
-        scanfill(green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4, 0.0, 0.49, 0.0);
-        scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
-        scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
-        draw_beam();
+    scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
+    scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3,  beach_y3, beach_x4, beach_y4, .661, .598, .302);
+    scanfill(green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4, 0.0, 0.49, 0.0);
+    scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
+    scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
+    draw_beam();
 
     glFlush();
-
 }
 
 void moveBoat(int key, int x, int y)
@@ -465,7 +472,10 @@ void moveBoat(int key, int x, int y)
                 beam_x1 -= 5;
                 beam_y1 += 40;
             }
-            //draw_beam();
+            fillArea();
+            draw_lighthouse();
+            draw_boat(boat_x, boat_y);
+            draw_beam();
             break;
         case GLUT_KEY_DOWN:
             if(beam_y1 > 250 * scale_y && beam_y1 > 100 * scale_y)
@@ -478,24 +488,31 @@ void moveBoat(int key, int x, int y)
                 beam_x1 += 5;
                 beam_y1 -= 10;
             }
-            //draw_beam();
+            fillArea();
+            draw_lighthouse();
+            draw_boat(boat_x, boat_y);
+            draw_beam();
             break;
         default:
             break;
     }
 }
 
-
-
-void myDisplay()
+void fillArea()
 {
-    scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 0.75, 1.0);
     scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
     scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3,  beach_y3, beach_x4, beach_y4, .661, .598, .302);
     scanfill(green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4, 0.0, 0.49, 0.0);
     scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
     scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
+}
 
+void myDisplay()
+{
+    // Horizon
+    scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 0.75, 1.0);
+
+    fillArea();
     //rotateBeam();
     //angle -= 0.5;
 
@@ -564,28 +581,6 @@ void main(int argc, char **argv)
     green2_y3 = 0;
     green2_x4 = 300.5*scale_x;
     green2_y4 = 0;
-
-    l1_x = (380 + 600)*500*scale_x/1368;
-    l1_y = 10*500*scale_y/720;
-    l2_x = ((470 - 5) + 600)*500*scale_x/1368;
-    l2_y = 20*500*scale_y/720;
-    l3_x = ((470 - 5) + 600)*500*scale_x/1368;
-    l3_y = 0;
-    l4_x = (380 + 600)*500*scale_x/1368;
-    l4_y = 0;
-    l5_x = ((370 - 10) + 600)*500*scale_x/1368;
-    l5_y = 25*500*scale_y/720;
-    l6_x = ((370 - 10) + 600)*500*scale_x/1368;
-    l6_y = 0;
-
-    p1_x = 985*500*scale_x/1368;
-    p1_y = 410*500*scale_y/720;
-    p2_x = 1035*500*scale_x/1368;
-    p2_y = 410*500*scale_y/720;
-    p3_x = 1035*500*scale_x/1368;
-    p3_y = 350*500*scale_y/720;
-    p4_x = 985*500*scale_x/1368;
-    p4_y = 350*500*scale_y/720;
 
     boat_x = 10;
     boat_y = 250 * scale_y;
