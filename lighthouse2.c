@@ -19,8 +19,12 @@ int beacon_x1, beacon_y1, beacon_x2, beacon_y2, beacon_x3, beacon_y3, beacon_x4,
 int boat_x, boat_y;
 float angle = 0, theta;
 
-float scale_x = 2.736;
-float scale_y = 1.44;
+float scale_x = 0;
+float scale_y = 0;
+int SCREEN_WIDTH = 1366;
+int SCREEN_HEIGHT = 768;
+
+float beam_x1, beam_y1, beam_x4, beam_y4;
 
 float beam_x1, beam_y1, beam_x4, beam_y4;
 
@@ -29,7 +33,7 @@ void myInit()
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0, 1368, 0, 720);
+    gluOrtho2D(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
 }
 
 void draw_pixel(int x, int y, float r, float g, float b)
@@ -114,22 +118,23 @@ void edgedetect(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2, int *le, int *re
         mx = x2 - x1; // y2-y1=0 implies line is horizontal
     x = x1;
     for (i = y1; i < y2; i++) // starting from x1,y1 add slope mx to x
-    {                         // and round it to find the next point on the                                        // line. For that particular scan line i
-        if (x < le[i])        // insert the x value into either le or re.
-            le[i] = x;        // Initially both le and re will contain same value...
-        if (x > re[i])        // in the next time for the other edge
-            re[i] = x;        // either le or re will change
-        x += mx;              // NOTE: le and re are integer arrays and x
-    }                         // is float so automatic type conversion.
+    {
+        // and round it to find the next point on the                                        // line. For that particular scan line i
+        if (x < le[i]) // insert the x value into either le or re.
+            le[i] = x; // Initially both le and re will contain same value...
+        if (x > re[i]) // in the next time for the other edge
+            re[i] = x; // either le or re will change
+        x += mx;       // NOTE: le and re are integer arrays and x
+    }                  // is float so automatic type conversion.
 }
 
 void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b)
 {
-    int le[1080], re[1080];
+    int le[SCREEN_WIDTH], re[SCREEN_WIDTH];
     int i, y;
-    for (i = 0; i < 1080; i++)
+    for (i = 0; i < SCREEN_WIDTH; i++)
     {
-        le[i] = 1000;
+        le[i] = SCREEN_WIDTH;
         re[i] = 0;
     }
 
@@ -137,7 +142,7 @@ void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float 
     edgedetect(x2, y2, x3, y3, le, re);
     edgedetect(x3, y3, x4, y4, le, re);
     edgedetect(x4, y4, x1, y1, le, re);
-    for (y = 0; y < 1080; y++)
+    for (y = 0; y < SCREEN_HEIGHT; y++)
     {
         if (le[y] <= re[y])
         {
@@ -470,8 +475,11 @@ void myDisplay()
     glFlush();
 }
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
+    scale_x = SCREEN_WIDTH / 500.0;
+    scale_y = SCREEN_HEIGHT / 500.0;
+    printf("%f %f", scale_x, scale_y);
     horizon_x1 = 0;
     horizon_y1 = 500 * scale_y;
     horizon_x2 = 500 * scale_x;
@@ -526,27 +534,27 @@ void main(int argc, char **argv)
     green2_x4 = 300.5 * scale_x;
     green2_y4 = 0;
 
-    l1_x = (380 + 600) * 500 * scale_x / 1368;
-    l1_y = 10 * 500 * scale_y / 720;
-    l2_x = ((470 - 5) + 600) * 500 * scale_x / 1368;
-    l2_y = 20 * 500 * scale_y / 720;
-    l3_x = ((470 - 5) + 600) * 500 * scale_x / 1368;
+    l1_x = (380 + 600) * 500 * scale_x / SCREEN_WIDTH;
+    l1_y = 10 * 500 * scale_y / SCREEN_HEIGHT;
+    l2_x = ((470 - 5) + 600) * 500 * scale_x / SCREEN_WIDTH;
+    l2_y = 20 * 500 * scale_y / SCREEN_HEIGHT;
+    l3_x = ((470 - 5) + 600) * 500 * scale_x / SCREEN_WIDTH;
     l3_y = 0;
-    l4_x = (380 + 600) * 500 * scale_x / 1368;
+    l4_x = (380 + 600) * 500 * scale_x / SCREEN_WIDTH;
     l4_y = 0;
-    l5_x = ((370 - 10) + 600) * 500 * scale_x / 1368;
-    l5_y = 25 * 500 * scale_y / 720;
-    l6_x = ((370 - 10) + 600) * 500 * scale_x / 1368;
+    l5_x = ((370 - 10) + 600) * 500 * scale_x / SCREEN_WIDTH;
+    l5_y = 25 * 500 * scale_y / SCREEN_HEIGHT;
+    l6_x = ((370 - 10) + 600) * 500 * scale_x / SCREEN_WIDTH;
     l6_y = 0;
 
-    p1_x = 985 * 500 * scale_x / 1368;
-    p1_y = 410 * 500 * scale_y / 720;
-    p2_x = 1035 * 500 * scale_x / 1368;
-    p2_y = 410 * 500 * scale_y / 720;
-    p3_x = 1035 * 500 * scale_x / 1368;
-    p3_y = 350 * 500 * scale_y / 720;
-    p4_x = 985 * 500 * scale_x / 1368;
-    p4_y = 350 * 500 * scale_y / 720;
+    p1_x = 985 * 500 * scale_x / SCREEN_WIDTH;
+    p1_y = 410 * 500 * scale_y / SCREEN_HEIGHT;
+    p2_x = 1035 * 500 * scale_x / SCREEN_WIDTH;
+    p2_y = 410 * 500 * scale_y / SCREEN_HEIGHT;
+    p3_x = 1035 * 500 * scale_x / SCREEN_WIDTH;
+    p3_y = 350 * 500 * scale_y / SCREEN_HEIGHT;
+    p4_x = 985 * 500 * scale_x / SCREEN_WIDTH;
+    p4_y = 350 * 500 * scale_y / SCREEN_HEIGHT;
 
     boat_x = 10;
     boat_y = 250 * scale_y;
@@ -556,10 +564,10 @@ void main(int argc, char **argv)
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
-    glutInitWindowSize(1368, 720);
+    glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     glutInitWindowPosition(0, 0);
     glutCreateWindow("Lighthouse");
-    // glutFullScreen();
+    glutFullScreen();
     myInit();
     glutDisplayFunc(myDisplay);
     glutSpecialFunc(moveBoat);
