@@ -386,21 +386,21 @@ void draw_lighthouse()
         EllipseX(i, 7, 1010, 410, 1.0, 0.0, 0.0);
     }
 
-    beam_x1 = 100 * scale_x;
+    /*beam_x1 = 100 * scale_x;
     beam_y1 = 400 * scale_y;
     beam_x4 = beam_x1;
     beam_y4 = beam_y1 - 40;
     scanfill(beam_x1, beam_y1, beacon_x1, beacon_y1, beacon_x4, beacon_y4, beam_x4, beam_y4, 1.0, 0.98, 0.80);
     int j;
     for(j = 0; j < 10; j++)
-        EllipseX(j, (beam_y1 - beam_y4) / 2, beam_x1, (beam_y1 + beam_y4) / 2, 1.0, 0.98, 0.80);
+        EllipseX(j, (beam_y1 - beam_y4) / 2, beam_x1, (beam_y1 + beam_y4) / 2, 1.0, 0.98, 0.80);*/
 
 }
 
 void draw_beam()
 {
-    beam_x1 = 100 * scale_x;
-    beam_y1 = 400 * scale_y;
+    //beam_x1 = 100 * scale_x;
+    //beam_y1 = 400 * scale_y;
     beam_x4 = beam_x1;
     beam_y4 = beam_y1 - 40;
     scanfill(beam_x1, beam_y1, beacon_x1, beacon_y1, beacon_x4, beacon_y4, beam_x4, beam_y4, 1.0, 0.98, 0.80);
@@ -442,7 +442,7 @@ void moveBoat(int key, int x, int y)
                 boat_x -= 10;
                 scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
                 draw_boat(boat_x, boat_y);
-                //draw_beam();
+                draw_beam();
             }
             break;
         case GLUT_KEY_RIGHT:
@@ -451,8 +451,34 @@ void moveBoat(int key, int x, int y)
                 boat_x += 10;
                 scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
                 draw_boat(boat_x, boat_y);
-                //draw_beam();
+                draw_beam();
             }
+            break;
+        case GLUT_KEY_UP:
+            if(beam_y1 > 250 * scale_y)
+            {
+                beam_x1 += 5;
+                beam_y1 += 40;
+            }
+            else
+            {
+                beam_x1 -= 5;
+                beam_y1 += 40;
+            }
+            //draw_beam();
+            break;
+        case GLUT_KEY_DOWN:
+            if(beam_y1 > 250 * scale_y)
+            {
+                beam_x1 -= 5;
+                beam_y1 -= 10;
+            }
+            else
+            {
+                beam_x1 += 5;
+                beam_y1 -= 10;
+            }
+            //draw_beam();
             break;
         default:
             break;
@@ -475,7 +501,7 @@ void myDisplay()
 
     draw_lighthouse();
 
-    //draw_beam();
+    draw_beam();
 
     draw_boat(boat_x, boat_y);
 
