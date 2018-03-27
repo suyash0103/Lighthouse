@@ -1,6 +1,9 @@
 #include <windows.h>
 #include <gl/glut.h>
-#include <bits/stdc++.h>
+
+#include <math.h>
+#include <stdlib.h>
+
 
 int horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x3, horizon_y3, horizon_x4, horizon_y4;
 int sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4;
@@ -15,26 +18,31 @@ int beacon_x1, beacon_y1, beacon_x2, beacon_y2, beacon_x3, beacon_y3, beacon_x4,
 int boat_x, boat_y;
 float angle = 0, theta;
 
-float scale_x=2.732;
-float scale_y=1.536;
+float scale_x=0;
+float scale_y=0;
+int SCREEN_WIDTH=1366;
+int SCREEN_HEIGHT=768;
+
+float beam_x1, beam_y1, beam_x4, beam_y4;
 
 float beam_x1, beam_y1, beam_x4, beam_y4;
 
 
 void myInit()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
-	glClearColor(0.0, 0.0, 0.0, 1.0);
-	glMatrixMode(GL_PROJECTION);
-	gluOrtho2D(0, 1366, 0, 768);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
+
 }
 
 void draw_pixel(int x, int y, float r, float g, float b)
 {
     glColor3f(r, g, b);
-	glBegin(GL_POINTS);
-	glVertex3f(x, y,0);
-	glEnd();
+    glBegin(GL_POINTS);
+    glVertex3f(x, y,0);
+    glEnd();
 }
 void symmetricPixels (int x, int y, int xc, int yc, float r, float g, float b)
 {
@@ -111,7 +119,8 @@ void edgedetect(GLfloat x1,GLfloat y1,GLfloat x2,GLfloat y2,int *le,int *re)
         mx = x2 - x1;    // y2-y1=0 implies line is horizontal
     x = x1;
     for(i = y1; i < y2; i++)        // starting from x1,y1 add slope mx to x
-    {                                  // and round it to find the next point on the                                        // line. For that particular scan line i
+    {
+        // and round it to find the next point on the                                        // line. For that particular scan line i
         if(x < le[i])         // insert the x value into either le or re.
             le[i] = x; // Initially both le and re will contain same value...
         if(x > re[i])         // in the next time for the other edge
@@ -122,11 +131,11 @@ void edgedetect(GLfloat x1,GLfloat y1,GLfloat x2,GLfloat y2,int *le,int *re)
 
 void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b)
 {
-    int le[1366],re[1366];
+    int le[SCREEN_WIDTH],re[SCREEN_WIDTH];
     int i, y;
-    for(i=0;i<1366;i++)
+    for(i=0; i<SCREEN_WIDTH; i++)
     {
-        le[i]=1366;
+        le[i]=SCREEN_WIDTH;
         re[i]=0;
     }
 
@@ -134,11 +143,11 @@ void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float 
     edgedetect(x2,y2,x3,y3,le,re);
     edgedetect(x3,y3,x4,y4,le,re);
     edgedetect(x4,y4,x1,y1,le,re);
-    for(y=0;y<768;y++)
+    for(y=0; y<SCREEN_HEIGHT; y++)
     {
         if(le[y]<=re[y])
         {
-            for(i=le[y]+1;i<re[y];i++)
+            for(i=le[y]+1; i<re[y]; i++)
             {
                 draw_pixel(i, y, r, g, b);
             }
@@ -148,58 +157,59 @@ void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float 
 
 void draw_line(int x1, int x2, int y1, int y2, float r, float g, float b)
 {
-	int dx, dy, i, e;
-	int incx, incy, inc1, inc2;
-	int x,y;
+    int dx, dy, i, e;
+    int incx, incy, inc1, inc2;
+    int x,y;
 
-	dx = x2-x1;
-	dy = y2-y1;
+    dx = x2-x1;
+    dy = y2-y1;
 
-	if (dx < 0) dx = -dx;
-	if (dy < 0) dy = -dy;
-	incx = 1;
-	if (x2 < x1) incx = -1;
-	incy = 1;
-	if (y2 < y1) incy = -1;
-	x = x1; y = y1;
-	if (dx > dy)
+    if (dx < 0) dx = -dx;
+    if (dy < 0) dy = -dy;
+    incx = 1;
+    if (x2 < x1) incx = -1;
+    incy = 1;
+    if (y2 < y1) incy = -1;
+    x = x1;
+    y = y1;
+    if (dx > dy)
     {
-		draw_pixel(x, y, r, g, b);
-		e = 2 * dy-dx;
-		inc1 = 2*(dy-dx);
-		inc2 = 2*dy;
-		for (i=0; i<dx; i++)
-		{
-			if (e >= 0)
-			{
-				y += incy;
-				e += inc1;
-			}
-			else
-				e += inc2;
-			x += incx;
-			draw_pixel(x, y, r, g, b);
-		}
-	}
-	else
+        draw_pixel(x, y, r, g, b);
+        e = 2 * dy-dx;
+        inc1 = 2*(dy-dx);
+        inc2 = 2*dy;
+        for (i=0; i<dx; i++)
+        {
+            if (e >= 0)
+            {
+                y += incy;
+                e += inc1;
+            }
+            else
+                e += inc2;
+            x += incx;
+            draw_pixel(x, y, r, g, b);
+        }
+    }
+    else
     {
-		draw_pixel(x, y, r, g, b);
-		e = 2*dx-dy;
-		inc1 = 2*(dx-dy);
-		inc2 = 2*dx;
-		for (i=0; i<dy; i++)
-		{
-			if (e >= 0)
-			{
-				x += incx;
-				e += inc1;
-			}
-			else
-				e += inc2;
-			y += incy;
-			draw_pixel(x, y, r, g, b);
-		}
-	}
+        draw_pixel(x, y, r, g, b);
+        e = 2*dx-dy;
+        inc1 = 2*(dx-dy);
+        inc2 = 2*dx;
+        for (i=0; i<dy; i++)
+        {
+            if (e >= 0)
+            {
+                x += incx;
+                e += inc1;
+            }
+            else
+                e += inc2;
+            y += incy;
+            draw_pixel(x, y, r, g, b);
+        }
+    }
 }
 
 void draw_boat(int boat_x, int boat_y)
@@ -296,8 +306,6 @@ void draw_boat(int boat_x, int boat_y)
 
     //EllipseX(60, 10, mid_x, mid_y);
 }
-
-
 
 void draw_lighthouse()
 {
@@ -399,24 +407,23 @@ void draw_beam()
     }
 }
 
-
 void rotateBeam()
 {
-       theta = angle* 3.14 / 180;
+    theta = angle* 3.14 / 180;
 
 
 
-       beam_x1 =  ((float)(beam_x1) * cos(theta)) + ((float)(beam_y1) * sin(theta));
-       beam_y1 =  ((float)(beam_x1) * sin(theta)) - ((float)(beam_y1) * cos(theta));
+    beam_x1 =  ((float)(beam_x1) * cos(theta)) + ((float)(beam_y1) * sin(theta));
+    beam_y1 =  ((float)(beam_x1) * sin(theta)) - ((float)(beam_y1) * cos(theta));
 
 
 
-        scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
-        scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3,  beach_y3, beach_x4, beach_y4, .661, .598, .302);
-        scanfill(green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4, 0.0, 0.49, 0.0);
-        scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
-        scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
-        draw_beam();
+    scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
+    scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3,  beach_y3, beach_x4, beach_y4, .661, .598, .302);
+    scanfill(green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4, 0.0, 0.49, 0.0);
+    scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
+    scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
+    draw_beam();
 
 //glFlush();
 
@@ -426,34 +433,32 @@ void moveBoat(int key, int x, int y)
 {
     switch(key)
     {
-        case GLUT_KEY_LEFT:
-            if(boat_x > -15)
-            {
-                boat_x -= 10;
-                scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
-                draw_boat(boat_x, boat_y);
-                draw_beam();
-            }
-            break;
-        case GLUT_KEY_RIGHT:
-            if(boat_x <= 175*scale_x)
-            {
-                boat_x += 10;
-                scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
-                draw_boat(boat_x, boat_y);
-                draw_beam();
-            }
-            break;
-        default:
-            break;
+    case GLUT_KEY_LEFT:
+        if(boat_x > -15)
+        {
+            boat_x -= 10;
+            scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
+            draw_boat(boat_x, boat_y);
+            draw_beam();
+        }
+        break;
+    case GLUT_KEY_RIGHT:
+        if(boat_x <= 175*scale_x)
+        {
+            boat_x += 10;
+            scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
+            draw_boat(boat_x, boat_y);
+            draw_beam();
+        }
+        break;
+    default:
+        break;
     }
 }
 
-
-
 void myDisplay()
 {
-	scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 0.75, 1.0);
+    scanfill(horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x4, horizon_y4, horizon_x3, horizon_y3, 0.0, 0.75, 1.0);
     scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
     scanfill(beach_x1, beach_y1, beach_x2, beach_y2, beach_x3,  beach_y3, beach_x4, beach_y4, .661, .598, .302);
     scanfill(green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4, 0.0, 0.49, 0.0);
@@ -461,29 +466,32 @@ void myDisplay()
     scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
 
 
-        rotateBeam();
-        angle -= 0.5;
+    rotateBeam();
+    angle -= 0.5;
 
 
-        draw_lighthouse();
+    draw_lighthouse();
 
     //draw_beam();
 
-        draw_boat(boat_x, boat_y);
+    draw_boat(boat_x, boat_y);
 
-	     glFlush();
+    glFlush();
 }
 
 int main(int argc, char **argv)
 {
-	horizon_x1 = 0;
-	horizon_y1 = 500*scale_y;
-	horizon_x2 = 500*scale_x;
-	horizon_y2 = 500*scale_y;
-	horizon_x3 = 0;
-	horizon_y3 = 440*scale_y;
-	horizon_x4 = 500*scale_x;
-	horizon_y4 = 435*scale_y;
+    scale_x=SCREEN_WIDTH/500.0;
+    scale_y=SCREEN_HEIGHT/500.0;
+    printf("%f %f",scale_x,scale_y);
+    horizon_x1 = 0;
+    horizon_y1 = 500*scale_y;
+    horizon_x2 = 500*scale_x;
+    horizon_y2 = 500*scale_y;
+    horizon_x3 = 0;
+    horizon_y3 = 440*scale_y;
+    horizon_x4 = 500*scale_x;
+    horizon_y4 = 435*scale_y;
 
     sea_x1 = 0;
     sea_y1 = 0;
@@ -531,27 +539,27 @@ int main(int argc, char **argv)
     green2_x4 = 300.5*scale_x;
     green2_y4 = 0;
 
-    l1_x = (380 + 600)*500*scale_x/1368;
-    l1_y = 10*500*scale_y/720;
-    l2_x = ((470 - 5) + 600)*500*scale_x/1368;
-    l2_y = 20*500*scale_y/720;
-    l3_x = ((470 - 5) + 600)*500*scale_x/1368;
+    l1_x = (380 + 600)*500*scale_x/SCREEN_WIDTH;
+    l1_y = 10*500*scale_y/SCREEN_HEIGHT;
+    l2_x = ((470 - 5) + 600)*500*scale_x/SCREEN_WIDTH;
+    l2_y = 20*500*scale_y/SCREEN_HEIGHT;
+    l3_x = ((470 - 5) + 600)*500*scale_x/SCREEN_WIDTH;
     l3_y = 0;
-    l4_x = (380 + 600)*500*scale_x/1368;
+    l4_x = (380 + 600)*500*scale_x/SCREEN_WIDTH;
     l4_y = 0;
-    l5_x = ((370 - 10) + 600)*500*scale_x/1368;
-    l5_y = 25*500*scale_y/720;
-    l6_x = ((370 - 10) + 600)*500*scale_x/1368;
+    l5_x = ((370 - 10) + 600)*500*scale_x/SCREEN_WIDTH;
+    l5_y = 25*500*scale_y/SCREEN_HEIGHT;
+    l6_x = ((370 - 10) + 600)*500*scale_x/SCREEN_WIDTH;
     l6_y = 0;
 
-    p1_x = 985*500*scale_x/1368;
-    p1_y = 410*500*scale_y/720;
-    p2_x = 1035*500*scale_x/1368;
-    p2_y = 410*500*scale_y/720;
-    p3_x = 1035*500*scale_x/1368;
-    p3_y = 350*500*scale_y/720;
-    p4_x = 985*500*scale_x/1368;
-    p4_y = 350*500*scale_y/720;
+    p1_x = 985*500*scale_x/SCREEN_WIDTH;
+    p1_y = 410*500*scale_y/SCREEN_HEIGHT;
+    p2_x = 1035*500*scale_x/SCREEN_WIDTH;
+    p2_y = 410*500*scale_y/SCREEN_HEIGHT;
+    p3_x = 1035*500*scale_x/SCREEN_WIDTH;
+    p3_y = 350*500*scale_y/SCREEN_HEIGHT;
+    p4_x = 985*500*scale_x/SCREEN_WIDTH;
+    p4_y = 350*500*scale_y/SCREEN_HEIGHT;
 
     boat_x = 10;
     boat_y = 250 * scale_y;
@@ -559,15 +567,15 @@ int main(int argc, char **argv)
     beam_x1 = 100 * scale_x;
     beam_y1 = 400 * scale_y;
 
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
-	glutInitWindowSize(1366, 768);
-	glutInitWindowPosition(0, 0);
-    	glutCreateWindow("Lighthouse");
-    	glutFullScreen();
-    	myInit();
-	glutDisplayFunc(myDisplay);
-	glutSpecialFunc(moveBoat);
-	glutMainLoop();
-	return 0;
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
+    glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    glutInitWindowPosition(0, 0);
+    glutCreateWindow("Lighthouse");
+    glutFullScreen();
+    myInit();
+    glutDisplayFunc(myDisplay);
+    glutSpecialFunc(moveBoat);
+    glutMainLoop();
+
 }
