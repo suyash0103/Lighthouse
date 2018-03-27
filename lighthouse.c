@@ -1,6 +1,6 @@
 #include <windows.h>
 #include <gl/glut.h>
-#include <stdio.h>
+#include <bits/stdc++.h>
 
 int horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x3, horizon_y3, horizon_x4, horizon_y4;
 int sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4;
@@ -15,8 +15,8 @@ int beacon_x1, beacon_y1, beacon_x2, beacon_y2, beacon_x3, beacon_y3, beacon_x4,
 int boat_x, boat_y;
 float angle = 0, theta;
 
-float scale_x=2.736;
-float scale_y=1.44;
+float scale_x=2.732;
+float scale_y=1.536;
 
 float beam_x1, beam_y1, beam_x4, beam_y4;
 
@@ -26,7 +26,7 @@ void myInit()
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glMatrixMode(GL_PROJECTION);
-	gluOrtho2D(0, 1368, 0, 720);
+	gluOrtho2D(0, 1366, 0, 768);
 }
 
 void draw_pixel(int x, int y, float r, float g, float b)
@@ -122,11 +122,11 @@ void edgedetect(GLfloat x1,GLfloat y1,GLfloat x2,GLfloat y2,int *le,int *re)
 
 void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b)
 {
-    int le[1080],re[1080];
+    int le[1366],re[1366];
     int i, y;
-    for(i=0;i<1080;i++)
+    for(i=0;i<1366;i++)
     {
-        le[i]=1000;
+        le[i]=1366;
         re[i]=0;
     }
 
@@ -134,7 +134,7 @@ void scanfill(float x1, float y1, float x2, float y2, float x3, float y3, float 
     edgedetect(x2,y2,x3,y3,le,re);
     edgedetect(x3,y3,x4,y4,le,re);
     edgedetect(x4,y4,x1,y1,le,re);
-    for(y=0;y<1080;y++)
+    for(y=0;y<768;y++)
     {
         if(le[y]<=re[y])
         {
@@ -474,7 +474,7 @@ void myDisplay()
 	     glFlush();
 }
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	horizon_x1 = 0;
 	horizon_y1 = 500*scale_y;
@@ -561,12 +561,13 @@ void main(int argc, char **argv)
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
-	glutInitWindowSize(1368, 720);
+	glutInitWindowSize(1366, 768);
 	glutInitWindowPosition(0, 0);
-    glutCreateWindow("Lighthouse");
-    glutFullScreen();
-    myInit();
+    	glutCreateWindow("Lighthouse");
+    	glutFullScreen();
+    	myInit();
 	glutDisplayFunc(myDisplay);
 	glutSpecialFunc(moveBoat);
 	glutMainLoop();
+	return 0;
 }
