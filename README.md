@@ -12,11 +12,14 @@ This requires a C complier to run the program. Follow the instruction to run the
 
 
 ### On Ubuntu
-- To compile the program: `gcc lighthouse2.c -lglut -lGL -lGLU -o lighthouse`
+- To compile the program: `gcc lighthouse2.c -lglut -lm -lGL -lGLU -o lighthouse`
 - To run the program `./lighthouse`
 
 ### Resolution
-The current program runs perfectly in 1360 × 760 resolution. Before running the program the resolution can be changed in the program. 
+- The current program runs perfectly in 1366 × 768 resolution.
+- Before running the program the resolution can be changed in the program.
+- Update scale_x = width/500 and scale_y = height/500
+
 
 ## Team Members
 * [Nishant Kumar](https://github.com/NishantKr97),16IT123
