@@ -1,7 +1,9 @@
 #include <windows.h>
 #include <gl/glut.h>
+
 #include <math.h>
 #include <stdlib.h>
+
 
 int horizon_x1, horizon_y1, horizon_x2, horizon_y2, horizon_x3, horizon_y3, horizon_x4, horizon_y4;
 int sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4;
@@ -23,7 +25,6 @@ int SCREEN_HEIGHT=768;
 
 float beam_x1, beam_y1, beam_x4, beam_y4;
 
-
 float beam_x1, beam_y1, beam_x4, beam_y4;
 
 
@@ -33,6 +34,7 @@ void myInit()
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
+
 }
 
 void draw_pixel(int x, int y, float r, float g, float b)
@@ -575,4 +577,5 @@ int main(int argc, char **argv)
     glutDisplayFunc(myDisplay);
     glutSpecialFunc(moveBoat);
     glutMainLoop();
+
 }
