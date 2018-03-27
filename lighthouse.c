@@ -465,12 +465,12 @@ void moveBoat(int key, int x, int y)
             if(beam_y1 > 250 * scale_y && beam_y1 < 400 * scale_y)
             {
                 beam_x1 += 5;
-                beam_y1 += 40;
+                beam_y1 += 20;
             }
             else if(beam_y1 < 250 * scale_y && beam_y1 < 400 * scale_y)
             {
                 beam_x1 -= 5;
-                beam_y1 += 40;
+                beam_y1 += 20;
             }
             fillArea();
             draw_lighthouse();
@@ -481,12 +481,12 @@ void moveBoat(int key, int x, int y)
             if(beam_y1 > 250 * scale_y && beam_y1 > 100 * scale_y)
             {
                 beam_x1 -= 5;
-                beam_y1 -= 10;
+                beam_y1 -= 20;
             }
             else if(beam_y1 < 250 * scale_y && beam_y1 > 100 * scale_y)
             {
                 beam_x1 += 5;
-                beam_y1 -= 10;
+                beam_y1 -= 20;
             }
             fillArea();
             draw_lighthouse();
