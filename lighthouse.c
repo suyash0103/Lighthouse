@@ -558,7 +558,6 @@ void main(int argc, char **argv)
 
     beam_x1 = 100 * scale_x;
     beam_y1 = 400 * scale_y;
-
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA);
 	glutInitWindowSize(1368, 720);
