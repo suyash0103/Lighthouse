@@ -455,12 +455,12 @@ void moveBoat(int key, int x, int y)
             }
             break;
         case GLUT_KEY_UP:
-            if(beam_y1 > 250 * scale_y)
+            if(beam_y1 > 250 * scale_y && beam_y1 < 400 * scale_y)
             {
                 beam_x1 += 5;
                 beam_y1 += 40;
             }
-            else
+            else if(beam_y1 < 250 * scale_y && beam_y1 < 400 * scale_y)
             {
                 beam_x1 -= 5;
                 beam_y1 += 40;
@@ -468,12 +468,12 @@ void moveBoat(int key, int x, int y)
             //draw_beam();
             break;
         case GLUT_KEY_DOWN:
-            if(beam_y1 > 250 * scale_y)
+            if(beam_y1 > 250 * scale_y && beam_y1 > 100 * scale_y)
             {
                 beam_x1 -= 5;
                 beam_y1 -= 10;
             }
-            else
+            else if(beam_y1 < 250 * scale_y && beam_y1 > 100 * scale_y)
             {
                 beam_x1 += 5;
                 beam_y1 -= 10;
