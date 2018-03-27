@@ -386,6 +386,15 @@ void draw_lighthouse()
         EllipseX(i, 7, 1010, 410, 1.0, 0.0, 0.0);
     }
 
+    beam_x1 = 100 * scale_x;
+    beam_y1 = 400 * scale_y;
+    beam_x4 = beam_x1;
+    beam_y4 = beam_y1 - 40;
+    scanfill(beam_x1, beam_y1, beacon_x1, beacon_y1, beacon_x4, beacon_y4, beam_x4, beam_y4, 1.0, 0.98, 0.80);
+    int j;
+    for(j = 0; j < 10; j++)
+        EllipseX(j, (beam_y1 - beam_y4) / 2, beam_x1, (beam_y1 + beam_y4) / 2, 1.0, 0.98, 0.80);
+
 }
 
 void draw_beam()
@@ -419,7 +428,7 @@ void rotateBeam()
         scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
         draw_beam();
 
-//glFlush();
+    glFlush();
 
 }
 
@@ -461,10 +470,8 @@ void myDisplay()
     scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
     scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
 
-
     //rotateBeam();
     //angle -= 0.5;
-
 
     draw_lighthouse();
 
