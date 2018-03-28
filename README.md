@@ -18,7 +18,7 @@ This requires a C complier to run the program. Follow the instruction to run the
 ### Resolution
 - The current program runs perfectly in 1366 × 768 resolution.
 - Before running the program the resolution can be changed in the program.
-- Update scale_x = width/500 and scale_y = height/500
+- Update SCREEN_WIDTH,SCREEN_HEIGHT according to your screen resolution
 
 
 ## Team Members
