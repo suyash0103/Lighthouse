@@ -12,19 +12,16 @@ int beach_x1, beach_y1, beach_x2, beach_y2, beach_x3, beach_y3, beach_x4, beach_
 int green1_x1, green1_y1, green1_x2, green1_y2, green1_x3, green1_y3, green1_x4, green1_y4;
 int green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4;
 int road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4;
-int l1_x, l1_y, l2_x, l2_y, l3_x, l3_y, l4_x, l4_y, l5_x, l5_y, l6_x, l6_y;
 int p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y;
 int beacon_x1, beacon_y1, beacon_x2, beacon_y2, beacon_x3, beacon_y3, beacon_x4, beacon_y4;
 
-int boat_x, boat_y;
+static int Boat_x, Boat_y;
 float angle = 0, theta;
 
 float scale_x = 0;
 float scale_y = 0;
 int SCREEN_WIDTH = 1366;
 int SCREEN_HEIGHT = 768;
-
-float beam_x1, beam_y1, beam_x4, beam_y4;
 
 float beam_x1, beam_y1, beam_x4, beam_y4;
 
@@ -38,6 +35,7 @@ void myInit()
 
 void draw_pixel(int x, int y, float r, float g, float b)
 {
+
     glColor3f(r, g, b);
     glBegin(GL_POINTS);
     glVertex3f(x, y, 0);
@@ -312,6 +310,20 @@ void draw_boat(int boat_x, int boat_y)
 
 void draw_lighthouse()
 {
+    int l1_x, l1_y, l2_x, l2_y, l3_x, l3_y, l4_x, l4_y, l5_x, l5_y, l6_x, l6_y;
+    l1_x = (380 + 600) * 500 * scale_x / SCREEN_WIDTH;
+    l1_y = 10 * 500 * scale_y / SCREEN_HEIGHT;
+    l2_x = ((470 - 5) + 600) * 500 * scale_x / SCREEN_WIDTH;
+    l2_y = 20 * 500 * scale_y / SCREEN_HEIGHT;
+    l3_x = ((470 - 5) + 600) * 500 * scale_x / SCREEN_WIDTH;
+    l3_y = 0;
+    l4_x = (380 + 600) * 500 * scale_x / SCREEN_WIDTH;
+    l4_y = 0;
+    l5_x = ((370 - 10) + 600) * 500 * scale_x / SCREEN_WIDTH;
+    l5_y = 25 * 500 * scale_y / SCREEN_HEIGHT;
+    l6_x = ((370 - 10) + 600) * 500 * scale_x / SCREEN_WIDTH;
+    l6_y = 0;
+
     // Block 1
     scanfill(l1_x, l1_y, l2_x, l2_y, l3_x, l3_y, l4_x, l4_y, 1.0, 0.0, 0.0);
     scanfill(l5_x, l5_y, l1_x, l1_y, l4_x, l4_y, l6_x, l6_y, 1.0, 0.0, 0.0);
@@ -427,28 +439,30 @@ void rotateBeam()
     //glFlush();
 }
 
-void moveBoat(int key, int x, int y)
+void moveBoat(unsigned char key, int x, int y)
 {
-    switch (key)
+    switch(key)
     {
-    case GLUT_KEY_LEFT:
-        if (boat_x > -15)
+    case 'a':
+        if(Boat_x > -15)
         {
-            boat_x -= 10;
-            scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
-            draw_boat(boat_x, boat_y);
+            Boat_x -= 10;
+            //scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
+            //draw_boat(boat_x, boat_y);
             draw_beam();
         }
         break;
-    case GLUT_KEY_RIGHT:
-        if (boat_x <= 175 * scale_x)
+    case 'd':
+        if(Boat_x <= 175*scale_x)
         {
-            boat_x += 10;
-            scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
-            draw_boat(boat_x, boat_y);
+            Boat_x += 10;
+            //scanfill(sea_x1, sea_y1, sea_x2, sea_y2, sea_x3, sea_y3, sea_x4, sea_y4, 0.0, 0.0, 1.0);
+            //draw_boat(boat_x, boat_y);
             draw_beam();
         }
         break;
+    case 'q':
+        exit(0);
     default:
         break;
     }
@@ -468,11 +482,13 @@ void myDisplay()
 
     draw_lighthouse();
 
-    //draw_beam();
-
-    draw_boat(boat_x, boat_y);
-
-    glFlush();
+    static int i=0;
+    draw_boat(Boat_x, Boat_y);
+    i++;
+    if(i%60==0){
+        printf("Boat coordinates:%d %d\n",Boat_x,Boat_y);
+    }
+    glutSwapBuffers();
 }
 
 int main(int argc, char **argv)
@@ -534,18 +550,7 @@ int main(int argc, char **argv)
     green2_x4 = 300.5 * scale_x;
     green2_y4 = 0;
 
-    l1_x = (380 + 600) * 500 * scale_x / SCREEN_WIDTH;
-    l1_y = 10 * 500 * scale_y / SCREEN_HEIGHT;
-    l2_x = ((470 - 5) + 600) * 500 * scale_x / SCREEN_WIDTH;
-    l2_y = 20 * 500 * scale_y / SCREEN_HEIGHT;
-    l3_x = ((470 - 5) + 600) * 500 * scale_x / SCREEN_WIDTH;
-    l3_y = 0;
-    l4_x = (380 + 600) * 500 * scale_x / SCREEN_WIDTH;
-    l4_y = 0;
-    l5_x = ((370 - 10) + 600) * 500 * scale_x / SCREEN_WIDTH;
-    l5_y = 25 * 500 * scale_y / SCREEN_HEIGHT;
-    l6_x = ((370 - 10) + 600) * 500 * scale_x / SCREEN_WIDTH;
-    l6_y = 0;
+
 
     p1_x = 985 * 500 * scale_x / SCREEN_WIDTH;
     p1_y = 410 * 500 * scale_y / SCREEN_HEIGHT;
@@ -556,20 +561,21 @@ int main(int argc, char **argv)
     p4_x = 985 * 500 * scale_x / SCREEN_WIDTH;
     p4_y = 350 * 500 * scale_y / SCREEN_HEIGHT;
 
-    boat_x = 10;
-    boat_y = 250 * scale_y;
+    Boat_x = 10;
+    Boat_y = 250 * scale_y;
 
     beam_x1 = 100 * scale_x;
     beam_y1 = 400 * scale_y;
 
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     glutInitWindowPosition(0, 0);
     glutCreateWindow("Lighthouse");
     glutFullScreen();
     myInit();
     glutDisplayFunc(myDisplay);
-    glutSpecialFunc(moveBoat);
+    glutIdleFunc(myDisplay);
+    glutKeyboardFunc(moveBoat);
     glutMainLoop();
 }
