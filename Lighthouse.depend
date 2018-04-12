@@ -239,9 +239,11 @@
 	<gl/glut.h>
 	<stdio.h>
 
-1521969179 source:f:\gihub\lighthouse\lighthouse.c
+1523551336 source:f:\gihub\lighthouse\lighthouse.c
 	<windows.h>
 	<gl/glut.h>
+	<math.h>
+	<stdlib.h>
 	<stdio.h>
 
 1522038023 source:c:\github\lighthouse\lighthouse.c
