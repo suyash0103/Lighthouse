@@ -508,12 +508,7 @@ void myDisplay()
     scanfill(green2_x1, green2_y1, green2_x2, green2_y2, green2_x3, green2_y3, green2_x4, green2_y4, 0.0, 0.49, 0.0);
     scanfill(road_x1, road_y1, road_x2, road_y2, road_x3, road_y3, road_x4, road_y4, 0.41, 0.41, 0.41);
     draw_lighthouse();
-
     customFunction();
-
-
-
-
     static int i=0;
     draw_boat(Boat_x, Boat_y);
     i++;
